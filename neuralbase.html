@@ -1347,7 +1347,7 @@ uvicorn main:app --reload --port 8000
 <script>
 // ── Helpers ──────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
-const getApiBase = () => $('api-base-url').value.trim().replace(/\/$/, '');
+const getApiBase = () => $('main.py').value.trim().replace(/\/$/, '');
 
 // ── Navigation ───────────────────────────────────────────────────────────
 document.querySelectorAll('.nav-item').forEach(item => {
