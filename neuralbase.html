@@ -1117,17 +1117,14 @@ Total params: 116 033  (453.25 KB)   Trainable: 116 033</pre>
                     <i class="fas fa-heartbeat"></i> Health check
                 </button>
             </div>
-            <div class="api-url-row">
-                <input type="text"
-                       id="api-base-url"
-                       class="api-url-input"
-                       value="http://localhost:8000"
-                       placeholder="https://votre-app.onrender.com">
-            </div>
-            <div class="status-indicator">
+            <div class="status-indicator" style="margin-top:4px;">
                 <div class="status-dot" id="api-status-dot"></div>
                 <span id="api-health-msg">En attente du health check…</span>
             </div>
+            <p style="font-size:.76rem;color:var(--text-muted);margin-top:10px;">
+                <i class="fas fa-info-circle"></i>
+                &nbsp;Connexion automatique — locale en développement, production sur Render.
+            </p>
         </div>
 
         <div class="grid-2">
@@ -1347,7 +1344,17 @@ uvicorn main:app --reload --port 8000
 <script>
 // ── Helpers ──────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
-const getApiBase = () => $('main.py').value.trim().replace(/\/$/, '');
+
+// URL de l'API — déterminée automatiquement :
+// • En production (Render) : même origine que le frontend
+// • En local : fallback sur localhost:8000
+const getApiBase = () => {
+    const origin = window.location.origin;
+    if (origin.includes('localhost') || origin.includes('127.0.0.1') || origin.startsWith('file://')) {
+        return 'http://localhost:8000';
+    }
+    return origin; // https://n-base.onrender.com
+};
 
 // ── Navigation ───────────────────────────────────────────────────────────
 document.querySelectorAll('.nav-item').forEach(item => {
