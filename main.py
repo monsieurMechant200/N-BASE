@@ -6,17 +6,9 @@ API REST pour tester les modèles entraînés depuis neuralbase.html
 Démarrage local :
     uvicorn main:app --reload --port 8000
 
-Déploiement Render (option gratuite) :
+Déploiement Render :
     Start Command → uvicorn main:app --host 0.0.0.0 --port $PORT
     Build Command → pip install -r requirements.txt
-
-Endpoints :
-    GET  /              — Page d'accueil (redirection vers /docs)
-    GET  /health        — Statut de l'API + modèles chargés
-    POST /predict/cnn   — Upload image → classe CIFAR-10 + confiances
-    POST /predict/lstm  — Séquence float → valeur T+1
-    GET  /docs          — Swagger UI (automatique FastAPI)
-    GET  /redoc         — ReDoc (automatique FastAPI)
 """
 
 from __future__ import annotations
@@ -26,7 +18,6 @@ import logging
 import os
 import time
 from contextlib import asynccontextmanager
-
 from typing import Optional
 
 import numpy as np
@@ -36,6 +27,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
 from PIL import Image
 from pydantic import BaseModel, Field, field_validator
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CORRECTIF CRITIQUE : importer les classes personnalisées AVANT load_model()
+# Cela déclenche @register_keras_serializable() et enregistre les classes
+# dans le registre interne de Keras.
+# ══════════════════════════════════════════════════════════════════════════════
+from models.cnn_model import CustomCNN        # noqa: F401
+from models.rnn_model import LSTMForecaster   # noqa: F401
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Logging structuré
@@ -81,7 +81,7 @@ registry = ModelRegistry()
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# Lifespan (remplace @app.on_event déprecié)
+# Lifespan
 # ══════════════════════════════════════════════════════════════════════════════
 
 @asynccontextmanager
@@ -117,7 +117,7 @@ async def lifespan(app: FastAPI):
     registry.startup_time = round(time.perf_counter() - t0, 3)
     logger.info("🚀 API prête en %.3f s", registry.startup_time)
 
-    yield  # ← Application en cours d'exécution
+    yield
 
     logger.info("🛑 Arrêt de l'API")
     tf.keras.backend.clear_session()
@@ -141,9 +141,6 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
-
-# ── CORS ──────────────────────────────────────────────────────────────────────
-# En production, remplacer ["*"] par la liste exacte des origines autorisées
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")
 
 app.add_middleware(
@@ -155,7 +152,6 @@ app.add_middleware(
 )
 
 
-# ── Middleware : logging des requêtes + timing ────────────────────────────────
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     t_start = time.perf_counter()
@@ -168,7 +164,6 @@ async def log_requests(request: Request, call_next):
     return response
 
 
-# ── Gestionnaire global d'erreurs inattendues ─────────────────────────────────
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     logger.exception("Erreur non gérée sur %s : %s", request.url.path, exc)
@@ -202,7 +197,6 @@ class LSTMRequest(BaseModel):
 class Top3Item(BaseModel):
     class_name: str = Field(alias="class")
     probability: float
-
     model_config = {"populate_by_name": True}
 
 
@@ -230,31 +224,22 @@ class APIResponse(BaseModel):
 
 @app.get("/", include_in_schema=False)
 async def root():
-    """Redirige vers la documentation interactive Swagger."""
     return RedirectResponse(url="/docs")
 
 
 @app.get("/health", summary="Statut de l'API", tags=["Monitoring"])
 async def health_check():
-    """
-    Retourne l'état de l'API et des modèles chargés.
-
-    - `cnn_loaded` / `lstm_loaded` : modèle disponible pour l'inférence
-    - `startup_time_s` : temps de démarrage en secondes
-    """
     return {
         "status": "ok",
         "version": app.version,
-        "cnn_loaded":       registry.cnn is not None,
-        "lstm_loaded":      registry.lstm is not None,
-        "cnn_load_error":   registry.cnn_load_error or None,
-        "lstm_load_error":  registry.lstm_load_error or None,
-        "startup_time_s":   registry.startup_time,
-        "tf_version":       tf.__version__,
+        "cnn_loaded":      registry.cnn is not None,
+        "lstm_loaded":     registry.lstm is not None,
+        "cnn_load_error":  registry.cnn_load_error or None,
+        "lstm_load_error": registry.lstm_load_error or None,
+        "startup_time_s":  registry.startup_time,
+        "tf_version":      tf.__version__,
     }
 
-
-# ── /predict/cnn ──────────────────────────────────────────────────────────────
 
 @app.post(
     "/predict/cnn",
@@ -263,21 +248,6 @@ async def health_check():
     tags=["Modèles"],
 )
 async def predict_image(file: UploadFile = File(..., description="Image JPEG/PNG/WebP")):
-    """
-    Classifie une image parmi les 10 classes CIFAR-10 via le modèle CNN entraîné.
-
-    **Pipeline :**
-    1. Lecture du fichier uploadé
-    2. Conversion RGB + redimensionnement 32×32
-    3. Normalisation [0, 1]
-    4. Inférence CNN → softmax → top-3
-
-    **Réponse :**
-    - `predicted_class` — classe prédite (en français)
-    - `confidence` — probabilité associée [0, 1]
-    - `top3` — les 3 meilleures classes avec leurs probabilités
-    - `all_probabilities` — distribution complète sur les 10 classes
-    """
     if registry.cnn is None:
         raise HTTPException(
             status_code=503,
@@ -289,7 +259,6 @@ async def predict_image(file: UploadFile = File(..., description="Image JPEG/PNG
             },
         )
 
-    # ── Validation du fichier ─────────────────────────────────────────────
     if not file.content_type or not file.content_type.startswith("image/"):
         raise HTTPException(
             status_code=415,
@@ -307,24 +276,20 @@ async def predict_image(file: UploadFile = File(..., description="Image JPEG/PNG
             },
         )
 
-    # ── Prétraitement ─────────────────────────────────────────────────────
     try:
         image = Image.open(io.BytesIO(contents)).convert("RGB")
         image = image.resize((32, 32), Image.LANCZOS)
         img_array = np.array(image, dtype="float32") / 255.0
-        img_array = np.expand_dims(img_array, axis=0)  # (1, 32, 32, 3)
+        img_array = np.expand_dims(img_array, axis=0)
     except Exception as exc:
-        logger.warning("Prétraitement image échoué : %s", exc)
         raise HTTPException(
             status_code=400,
             detail={"error": "IMAGE_PROCESSING_ERROR", "message": f"Impossible de traiter l'image : {exc}"},
         ) from exc
 
-    # ── Inférence ─────────────────────────────────────────────────────────
     try:
         probabilities: np.ndarray = registry.cnn.predict(img_array, verbose=0)[0]
     except Exception as exc:
-        logger.error("Inférence CNN échouée : %s", exc)
         raise HTTPException(
             status_code=500,
             detail={"error": "INFERENCE_ERROR", "message": f"Erreur d'inférence CNN : {exc}"},
@@ -339,16 +304,10 @@ async def predict_image(file: UploadFile = File(..., description="Image JPEG/PNG
         {"class": CIFAR10_CLASSES[i], "probability": round(float(probabilities[i]), 4)}
         for i in top3_idx
     ]
-
     all_probs = {
         CIFAR10_CLASSES[i]: round(float(p), 4)
         for i, p in enumerate(probabilities)
     }
-
-    logger.info(
-        "CNN prediction → %s (%.2f%%) | fichier: %s",
-        predicted_class, confidence * 100, file.filename,
-    )
 
     return APIResponse(
         success=True,
@@ -362,8 +321,6 @@ async def predict_image(file: UploadFile = File(..., description="Image JPEG/PNG
     )
 
 
-# ── /predict/lstm ─────────────────────────────────────────────────────────────
-
 @app.post(
     "/predict/lstm",
     response_model=APIResponse,
@@ -371,21 +328,6 @@ async def predict_image(file: UploadFile = File(..., description="Image JPEG/PNG
     tags=["Modèles"],
 )
 async def predict_timeseries(request: LSTMRequest):
-    """
-    Prédit la valeur T+1 à partir d'une fenêtre temporelle.
-
-    **Body JSON attendu :**
-    ```json
-    { "sequence": [0.12, 0.15, 0.18, 0.21, 0.24] }
-    ```
-
-    > ⚠️ La séquence doit être **pré-normalisée** avec le même `MinMaxScaler`
-    > utilisé lors de l'entraînement pour obtenir une prédiction cohérente.
-
-    **Réponse :**
-    - `prediction_t_plus_1` — valeur prédite (espace normalisé)
-    - `sequence_length_used` — longueur effective de la séquence
-    """
     if registry.lstm is None:
         raise HTTPException(
             status_code=503,
@@ -397,7 +339,6 @@ async def predict_timeseries(request: LSTMRequest):
             },
         )
 
-    # ── Inférence ─────────────────────────────────────────────────────────
     try:
         input_array = np.array(request.sequence, dtype="float32").reshape(
             1, len(request.sequence), 1
@@ -405,16 +346,10 @@ async def predict_timeseries(request: LSTMRequest):
         prediction = registry.lstm.predict(input_array, verbose=0)
         pred_value = float(prediction[0][0])
     except Exception as exc:
-        logger.error("Inférence LSTM échouée : %s", exc)
         raise HTTPException(
             status_code=500,
             detail={"error": "INFERENCE_ERROR", "message": f"Erreur d'inférence LSTM : {exc}"},
         ) from exc
-
-    logger.info(
-        "LSTM prediction → %.6f (séquence de %d valeurs)",
-        pred_value, len(request.sequence),
-    )
 
     return APIResponse(
         success=True,
