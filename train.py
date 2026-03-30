@@ -1,13 +1,3 @@
-"""
-train.py
-Script principal d'entraînement pour les deux missions.
-
-Usage :
-  python train.py --mission cnn
-  python train.py --mission lstm
-  python train.py --mission all
-"""
-
 import argparse
 import os
 import tensorflow as tf
@@ -29,13 +19,10 @@ os.makedirs("models/saved", exist_ok=True)
 os.makedirs("results", exist_ok=True)
 
 
-# Callbacks communs
-
 
 def get_callbacks(monitor: str = "val_loss",
                   model_path: str = "models/saved/best_model.h5"):
     """
-    Retourne une liste de callbacks standards :
       - EarlyStopping  : arrêt si pas d'amélioration pendant 10 époques
       - ModelCheckpoint: sauvegarde le meilleur modèle
       - ReduceLROnPlateau: réduit le LR si plateau
@@ -69,10 +56,8 @@ def get_callbacks(monitor: str = "val_loss",
 def train_cnn(epochs: int = 20, batch_size: int = 64):
     print("  MISSION 1 — Entraînement CNN (CIFAR-10)")
 
-
     # Données
     train_ds, val_ds, _ = load_cifar10(batch_size=batch_size)
-
     # Modèle
     model = build_cnn(num_classes=10)
     model.compile(
@@ -93,24 +78,17 @@ def train_cnn(epochs: int = 20, batch_size: int = 64):
         ),
         verbose=1,
     )
-
     # Sauvegarde + Visualisation
     model.save("models/saved/cnn_model.keras")
     plot_training_history(history, save_path="results/cnn_history.png")
-    print("\n[✓] CNN entraîné et sauvegardé dans models/saved/cnn_model.keras")
+    print("\n CNN entraîné et sauvegardé dans models/saved/cnn_model.keras")
     return history
 
-
-
 # MISSION 2 — Entraînement LSTM
-
-
-
 def train_lstm(epochs: int = 20,
                batch_size: int = 32,
                sequence_length: int = 24):
     print("  MISSION 2 — Entraînement LSTM (Jena Climate)")
-
     # Chargement des Données
     series = load_jena_climate()
     train_ds, val_ds, test_ds, scaler, _, _ = create_timeseries_datasets(
