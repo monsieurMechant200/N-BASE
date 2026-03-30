@@ -1,5 +1,4 @@
 """
-utils/data_processing.py
 Pipeline de données pour les deux missions :
   - Mission 1 : CIFAR-10  (tf.data.Dataset)
   - Mission 2 : Série temporelle (Sliding Window via tf.keras.utils)
@@ -19,9 +18,6 @@ from typing import Tuple
 def load_cifar10(batch_size: int = 64) -> Tuple[tf.data.Dataset, tf.data.Dataset, tuple]:
     """
     Charge CIFAR-10, normalise les pixels [0,1] et renvoie des tf.data.Dataset.
-
-    Retourne
-    --------
     train_ds : tf.data.Dataset entraînement (batché, préfetch)
     val_ds   : tf.data.Dataset validation  (batché, préfetch)
     test_data: tuple (x_test, y_test) numpy pour l'évaluation finale
@@ -57,15 +53,11 @@ def load_cifar10(batch_size: int = 64) -> Tuple[tf.data.Dataset, tf.data.Dataset
     return train_ds, val_ds, (x_test, y_test)
 
 
-# MISSION 2 — Série temporelle (Jena Climate ou autre CSV)
+# MISSION 2 — Série temporelle (Jena Climate )
 
 
 def load_jena_climate(csv_path: str = "data/jena_climate_2009_2016.csv",
                       column: str = "T (degC)") -> np.ndarray:
-    """
-    Charge le dataset Jena Climate et extrait une colonne cible.
-    Si le fichier n'existe pas, télécharge automatiquement via Keras.
-    """
     try:
         df = pd.read_csv(csv_path)
         series = df[column].values.astype("float32")
@@ -95,18 +87,15 @@ def create_timeseries_datasets(
            MinMaxScaler, np.ndarray, np.ndarray]:
     """
     Prépare les fenêtres glissantes pour l'entraînement LSTM.
-
     Étapes :
       1. Normalisation MinMaxScaler
       2. Découpage train/val/test
       3. Création tf.keras.utils.timeseries_dataset_from_array
-
     Retourne
-    --------
-    train_ds, val_ds, test_ds : tf.data.Dataset
-    scaler                    : MinMaxScaler (pour inverse_transform)
-    y_test_raw                : valeurs réelles (non normalisées) du test
-    test_series_norm          : série normalisée (pour reconstruction graphique)
+    - train_ds, val_ds, test_ds : tf.data.Dataset
+    - scaler                    : MinMaxScaler (pour inverse_transform)
+    - y_test_raw                : valeurs réelles (non normalisées) du test
+    - test_series_norm          : série normalisée (pour reconstruction graphique)
     """
     # 1. Normalisation
     scaler = MinMaxScaler(feature_range=(0, 1))
