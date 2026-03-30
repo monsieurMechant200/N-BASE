@@ -162,7 +162,7 @@ if __name__ == "__main__":
         default="all",
         help="Mission à entraîner (cnn | lstm | all)"
     )
-    parser.add_argument("--epochs",     type=int, default=20)
+    parser.add_argument("--epochs",     type=int, default=50)
     parser.add_argument("--batch_size", type=int, default=64)
     args = parser.parse_known_args()[0]
 
@@ -171,3 +171,4 @@ if __name__ == "__main__":
 
     if args.mission in ("lstm", "all"):
         train_lstm(epochs=args.epochs, batch_size=args.batch_size)
+ 
