@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         /* ═══════════════════════════════════════════════════════════════
-           SYSTÈME DE THÈMES
+           SYSTÈME DE THÈMES (inchangé)
         ═══════════════════════════════════════════════════════════════ */
         :root, [data-theme="dark"] {
             --bg-app:         #080c14;
@@ -136,7 +136,6 @@
             transition: background-color .4s, color .4s;
         }
 
-        /* Mesh background */
         body::before {
             content: '';
             position: fixed; inset: 0;
@@ -152,7 +151,7 @@
         .mono { font-family: 'DM Mono', monospace; }
 
         /* ═══════════════════════════════════════════════════════════════
-           SIDEBAR
+           SIDEBAR (inchangé)
         ═══════════════════════════════════════════════════════════════ */
         .sidebar {
             width: 240px;
@@ -207,7 +206,6 @@
             font-weight: 500;
         }
 
-        /* Nav */
         .nav-section { padding: 12px 12px 0; }
         .nav-label {
             font-size: .65rem;
@@ -277,7 +275,6 @@
             letter-spacing: .04em;
         }
 
-        /* Theme switcher */
         .theme-section {
             padding: 16px;
             border-top: 1px solid var(--border);
@@ -353,7 +350,6 @@
             z-index: 1;
         }
 
-        /* Header */
         .page-header {
             display: flex;
             justify-content: space-between;
@@ -415,7 +411,7 @@
         .hbadge.accent  .dot { background: var(--accent);  box-shadow: 0 0 8px var(--accent-glow); }
 
         /* ═══════════════════════════════════════════════════════════════
-           PANELS
+           PANELS & CARDS (inchangés)
         ═══════════════════════════════════════════════════════════════ */
         .panel { display: none; animation: slideIn .3s ease; }
         .panel.active { display: block; }
@@ -425,9 +421,6 @@
             to   { opacity:1; transform: translateY(0); }
         }
 
-        /* ═══════════════════════════════════════════════════════════════
-           CARDS
-        ═══════════════════════════════════════════════════════════════ */
         .card {
             background: var(--bg-glass);
             backdrop-filter: blur(16px);
@@ -468,15 +461,9 @@
             font-size: .8rem;
         }
 
-        /* ═══════════════════════════════════════════════════════════════
-           GRIDS
-        ═══════════════════════════════════════════════════════════════ */
         .grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; margin-bottom: 20px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 20px; }
 
-        /* ═══════════════════════════════════════════════════════════════
-           MÉTRIQUES
-        ═══════════════════════════════════════════════════════════════ */
         .metric-card {
             background: var(--bg-glass);
             backdrop-filter: blur(16px);
@@ -533,9 +520,6 @@
             opacity: .4;
         }
 
-        /* ═══════════════════════════════════════════════════════════════
-           BOUTONS
-        ═══════════════════════════════════════════════════════════════ */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -566,9 +550,6 @@
 
         .btn-sm { padding: 6px 12px; font-size: .78rem; border-radius: 8px; }
 
-        /* ═══════════════════════════════════════════════════════════════
-           CODE BLOCKS
-        ═══════════════════════════════════════════════════════════════ */
         pre.code-block {
             background: var(--bg-app);
             border: 1px solid var(--border);
@@ -582,9 +563,6 @@
             white-space: pre;
         }
 
-        /* ═══════════════════════════════════════════════════════════════
-           TEST ZONE & API
-        ═══════════════════════════════════════════════════════════════ */
         .api-url-row {
             display: flex;
             align-items: center;
@@ -629,7 +607,6 @@
         .status-dot.online  { background: var(--accent2); box-shadow: 0 0 8px var(--accent2-glow); }
         .status-dot.offline { background: var(--danger); }
 
-        /* Upload zone */
         .upload-zone {
             border: 2px dashed var(--border-bright);
             border-radius: 14px;
@@ -658,7 +635,6 @@
 
         #cnn-file-input { display: none; }
 
-        /* Preview */
         .preview-container {
             display: none;
             align-items: center;
@@ -683,7 +659,6 @@
         .preview-name { font-size: .83rem; font-weight: 600; word-break: break-all; }
         .preview-size { font-size: .75rem; color: var(--text-muted); margin-top: 3px; }
 
-        /* Result cards */
         .result-panel {
             display: none;
             margin-top: 16px;
@@ -736,7 +711,6 @@
         .top3-class { font-size: .75rem; color: var(--text-sub); margin-bottom: 4px; }
         .top3-prob { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: var(--accent); }
 
-        /* LSTM textarea */
         textarea.seq-input {
             width: 100%;
             background: var(--bg-app);
@@ -756,7 +730,6 @@
 
         .seq-actions { display: flex; gap: 8px; margin-top: 10px; }
 
-        /* Spinner */
         .spinner {
             display: none;
             width: 16px; height: 16px;
@@ -768,7 +741,6 @@
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Toast */
         .toast {
             position: fixed;
             bottom: 28px; right: 28px;
@@ -802,7 +774,6 @@
         .toast.success::before { background: var(--accent2); }
         .toast.error::before   { background: var(--danger); }
 
-        /* Checklist */
         .checklist { display: flex; flex-direction: column; gap: 0; }
 
         .checklist-item {
@@ -826,7 +797,6 @@
             flex-shrink: 0;
         }
 
-        /* Image results in panels */
         .result-img {
             width: 100%;
             border-radius: 10px;
@@ -837,8 +807,236 @@
         canvas { max-height: 280px; width: 100%; }
 
         /* ═══════════════════════════════════════════════════════════════
-           RESPONSIVE
+           PANEL ÉQUIPE (PHOTOS EN CARRÉ)
         ═══════════════════════════════════════════════════════════════ */
+        .team-hero {
+            background: linear-gradient(135deg, var(--accent-glow), var(--accent2-glow));
+            border: 1px solid var(--border-bright);
+            border-radius: 20px;
+            padding: 36px;
+            text-align: center;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--accent-glow), transparent);
+            pointer-events: none;
+        }
+
+        .team-hero-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -.03em;
+            margin-bottom: 8px;
+        }
+
+        .team-hero-sub {
+            font-size: .88rem;
+            color: var(--text-sub);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .member-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px;
+            transition: all .3s;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            opacity: 0;
+            transition: opacity .3s;
+        }
+
+        .member-card:hover {
+            border-color: var(--border-bright);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,.15);
+        }
+
+        .member-card:hover::before { opacity: 1; }
+
+        /* Photo carrée */
+        .member-photo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 16px auto;
+            border-radius: 16px;   /* légèrement arrondi mais reste carré */
+            overflow: hidden;
+            background: var(--bg-layer2);
+            border: 2px solid var(--border-bright);
+            transition: transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .member-card:hover .member-photo {
+            transform: scale(1.02);
+        }
+
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Fallback si image manquante (initiales) */
+        .member-photo .photo-fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-glow), var(--accent2-glow));
+            color: var(--text-main);
+        }
+
+        .member-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .member-role {
+            font-size: .75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--accent);
+            margin-bottom: 14px;
+        }
+
+        .member-contributions {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            text-align: left;
+            margin-top: 8px;
+        }
+
+        .member-contributions li {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: .8rem;
+            color: var(--text-sub);
+            line-height: 1.4;
+        }
+
+        .member-contributions li::before {
+            content: '▸';
+            color: var(--accent2);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .member-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: .7rem;
+            font-weight: 600;
+            background: var(--accent-glow);
+            color: var(--accent);
+            border: 1px solid var(--border);
+            margin-top: 14px;
+        }
+
+        .cifar-warning {
+            background: linear-gradient(135deg, rgba(255,179,71,0.08), rgba(255,79,109,0.05));
+            border: 1px solid rgba(255,179,71,0.3);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            font-size: .8rem;
+            color: var(--text-sub);
+            line-height: 1.6;
+        }
+
+        .cifar-warning strong {
+            color: var(--warning);
+            display: block;
+            margin-bottom: 6px;
+            font-size: .82rem;
+        }
+
+        .cifar-classes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .cifar-class-tag {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: .72rem;
+            font-weight: 600;
+            background: var(--bg-app);
+            border: 1px solid var(--border-bright);
+            color: var(--text-sub);
+        }
+
+        .cifar-class-tag.photo-ok {
+            border-color: var(--accent2);
+            color: var(--accent2);
+            background: var(--accent2-glow);
+        }
+
+        .result-warning {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: rgba(255,179,71,0.08);
+            border: 1px solid rgba(255,179,71,0.25);
+            font-size: .77rem;
+            color: var(--warning);
+            line-height: 1.5;
+            display: none;
+        }
+
+        .confidence-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: .72rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .confidence-badge.haute   { background: rgba(0,229,176,0.12); color: var(--accent2); border: 1px solid var(--accent2); }
+        .confidence-badge.moyenne { background: rgba(255,179,71,0.12); color: var(--warning); border: 1px solid var(--warning); }
+        .confidence-badge.faible  { background: rgba(255,79,109,0.12); color: var(--danger);  border: 1px solid var(--danger); }
+
         @media (max-width: 960px) {
             .sidebar { width: 200px; }
             .main-content { margin-left: 200px; max-width: calc(100vw - 200px); }
@@ -851,60 +1049,53 @@
             .main-content { margin-left: 0; max-width: 100vw; padding: 20px; }
         }
 
-        /* Glow pulse animation for active badge */
         @keyframes pulse-glow {
             0%, 100% { box-shadow: 0 0 6px var(--accent2-glow); }
             50%       { box-shadow: 0 0 16px var(--accent2-glow); }
         }
-
         .hbadge.success .dot { animation: pulse-glow 2s infinite; }
     </style>
 </head>
 <body>
 
 <!-- ══════════════════════════════════════════════════════
-     SIDEBAR
+     SIDEBAR (inchangé)
 ══════════════════════════════════════════════════════ -->
 <aside class="sidebar">
-
     <div class="brand">
         <div class="brand-logo">
             <div class="brand-icon-wrap"><i class="fas fa-brain"></i></div>
-            <div>
-                <div class="brand-name">NeuralBase</div>
-            </div>
+            <div><div class="brand-name">NeuralBase</div></div>
         </div>
         <div class="brand-sub">ML Studio · Évaluation</div>
     </div>
-
     <nav class="nav-section" style="flex:1; overflow-y:auto;">
         <div class="nav-label">Modèles</div>
-
         <div class="nav-item active" data-target="cnn-panel">
             <div class="nav-icon"><i class="fas fa-image"></i></div>
             Vision CNN
             <span class="nav-badge">79.5%</span>
         </div>
-
         <div class="nav-item" data-target="lstm-panel">
             <div class="nav-icon"><i class="fas fa-wave-square"></i></div>
             LSTM Series
             <span class="nav-badge">✓</span>
         </div>
-
         <div class="nav-label" style="margin-top:12px;">Outils</div>
-
         <div class="nav-item" data-target="api-panel">
             <div class="nav-icon"><i class="fas fa-plug"></i></div>
             Test API Live
         </div>
-
         <div class="nav-item" data-target="deliverables-panel">
             <div class="nav-icon"><i class="fas fa-folder-open"></i></div>
             Livrables
         </div>
+        <div class="nav-item" data-target="team-panel">
+            <div class="nav-icon"><i class="fas fa-users"></i></div>
+            Équipe
+            <span class="nav-badge">5</span>
+        </div>
     </nav>
-
     <div class="theme-section">
         <div class="theme-label"><i class="fas fa-palette"></i> &nbsp;Thème</div>
         <div class="theme-swatches">
@@ -915,21 +1106,17 @@
             <div class="swatch"       data-theme-target="aurora"    title="Aurora"></div>
         </div>
     </div>
-
     <div class="sidebar-footer">
         <a href="https://github.com/monsieurMechant200/N-BASE.git" target="_blank" class="github-link">
             <i class="fab fa-github"></i> Voir le projet GitHub
         </a>
     </div>
-
 </aside>
 
 <!-- ══════════════════════════════════════════════════════
-     CONTENU PRINCIPAL
+     MAIN CONTENT (CNN, LSTM, API, LIVRABLES inchangés)
 ══════════════════════════════════════════════════════ -->
 <main class="main-content">
-
-    <!-- Header -->
     <header class="page-header">
         <div class="page-title-area">
             <div class="page-eyebrow">Deep Learning · Niveau 3 SDIA</div>
@@ -937,82 +1124,28 @@
             <p class="page-sub">Évaluation Pratique — Dr. Noulapeu</p>
         </div>
         <div class="header-badges">
-            <div class="hbadge accent">
-                <div class="dot"></div>
-                CNN · 79.52% Acc
-            </div>
-            <div class="hbadge success">
-                <div class="dot"></div>
-                LSTM · MSE 0.1040
-            </div>
+            <div class="hbadge accent"><div class="dot"></div>CNN · 79.52% Acc</div>
+            <div class="hbadge success"><div class="dot"></div>LSTM · MSE 0.1040</div>
         </div>
     </header>
 
-    <!-- ════════════════════════════════════════════════
-         PANEL CNN
-    ════════════════════════════════════════════════ -->
+    <!-- Panel CNN (inchangé) -->
     <div id="cnn-panel" class="panel active">
-
         <div class="grid-3">
-            <div class="metric-card">
-                <i class="fas fa-bullseye metric-icon"></i>
-                <div class="metric-label">Test Accuracy</div>
-                <div class="metric-value good">79.52%</div>
-                <div class="metric-sub">Objectif &gt; 70% ✓</div>
-            </div>
-            <div class="metric-card">
-                <i class="fas fa-chart-line metric-icon"></i>
-                <div class="metric-label">Validation Loss</div>
-                <div class="metric-value accent">0.6928</div>
-                <div class="metric-sub">Best checkpoint sauvegardé</div>
-            </div>
-            <div class="metric-card">
-                <i class="fas fa-stopwatch metric-icon"></i>
-                <div class="metric-label">Early Stopping</div>
-                <div class="metric-value">50<span style="font-size:1rem;font-weight:400;color:var(--text-muted)"> / 100</span></div>
-                <div class="metric-sub">Epochs complétées</div>
-            </div>
+            <div class="metric-card"><i class="fas fa-bullseye metric-icon"></i><div class="metric-label">Test Accuracy</div><div class="metric-value good">79.52%</div><div class="metric-sub">Objectif &gt; 70% ✓</div></div>
+            <div class="metric-card"><i class="fas fa-chart-line metric-icon"></i><div class="metric-label">Validation Loss</div><div class="metric-value accent">0.6928</div><div class="metric-sub">Best checkpoint sauvegardé</div></div>
+            <div class="metric-card"><i class="fas fa-stopwatch metric-icon"></i><div class="metric-label">Early Stopping</div><div class="metric-value">50<span style="font-size:1rem;font-weight:400;color:var(--text-muted)"> / 100</span></div><div class="metric-sub">Epochs complétées</div></div>
         </div>
-
         <div class="grid-2">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <div class="card-icon"><i class="fas fa-chart-area"></i></div>
-                        Training History
-                    </div>
-                </div>
-                <img src="results/cnn_history.png" alt="CNN Training History" class="result-img"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-                <canvas id="cnnLossChart" style="display:none;"></canvas>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <div class="card-icon"><i class="fas fa-th"></i></div>
-                        Matrice de Confusion
-                    </div>
-                </div>
-                <img src="results/cnn_confusion_matrix.png" alt="Matrice de confusion" class="result-img"
-                     onerror="this.style.display='none'">
-            </div>
+            <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon"><i class="fas fa-chart-area"></i></div>Training History</div></div><img src="results/cnn_history.png" alt="CNN Training History" class="result-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"><canvas id="cnnLossChart" style="display:none;"></canvas></div>
+            <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon"><i class="fas fa-th"></i></div>Matrice de Confusion</div></div><img src="results/cnn_confusion_matrix.png" alt="Matrice de confusion" class="result-img" onerror="this.style.display='none'"></div>
         </div>
-
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">
-                    <div class="card-icon"><i class="fas fa-sitemap"></i></div>
-                    CustomCNN — Architecture
-                </div>
-                <button class="btn btn-sm"><i class="fas fa-copy"></i> Copier</button>
-            </div>
-            <pre class="code-block">
+        <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon"><i class="fas fa-sitemap"></i></div>CustomCNN — Architecture</div><button class="btn btn-sm"><i class="fas fa-copy"></i> Copier</button></div><pre class="code-block">
 Model: CustomCNN
 ______________________________________________________________________
- Layer (type)                     Output Shape              Paramètres
+Layer (type)                     Output Shape              Paramètres
 ----------------------------------------------------------------------
- data_augmentation (Sequential)  (None, 32, 32, 3)              0
+data_augmentation (Sequential)  (None, 32, 32, 3)              0
  conv1         (Conv2D)          multiple                      896
  bn1           (BatchNorm)       multiple                      128
  pool1         (MaxPooling2D)    multiple                        0
@@ -1026,67 +1159,20 @@ ______________________________________________________________________
  dropout       (Dropout)         multiple                        0
  output        (Dense)           multiple                    2 570
 ----------------------------------------------------------------------
-Total params: 1 276 618  (4.87 MB)   Trainable: 1 276 170   Non-trainable: 448</pre>
-        </div>
+Total params: 1 276 618  (4.87 MB)   
+Trainable: 1 276 170   Non-trainable: 448</pre></div>
     </div>
 
-    <!-- ════════════════════════════════════════════════
-         PANEL LSTM
-    ════════════════════════════════════════════════ -->
+    <!-- Panel LSTM (inchangé) -->
     <div id="lstm-panel" class="panel">
-
         <div class="grid-3">
-            <div class="metric-card">
-                <i class="fas fa-tachometer-alt metric-icon"></i>
-                <div class="metric-label">Test MSE</div>
-                <div class="metric-value good">0.1040</div>
-                <div class="metric-sub">Mean Squared Error</div>
-            </div>
-            <div class="metric-card">
-                <i class="fas fa-sliders-h metric-icon"></i>
-                <div class="metric-label">Fenêtre Temporelle</div>
-                <div class="metric-value accent">24</div>
-                <div class="metric-sub">Sliding Window steps</div>
-            </div>
-            <div class="metric-card">
-                <i class="fas fa-database metric-icon"></i>
-                <div class="metric-label">Dataset</div>
-                <div class="metric-value" style="font-size:1rem;margin-top:6px;">Jena Climate</div>
-                <div class="metric-sub">2009 – 2016</div>
-            </div>
+            <div class="metric-card"><i class="fas fa-tachometer-alt metric-icon"></i><div class="metric-label">Test MSE</div><div class="metric-value good">0.1040</div><div class="metric-sub">Mean Squared Error</div></div>
+            <div class="metric-card"><i class="fas fa-sliders-h metric-icon"></i><div class="metric-label">Fenêtre Temporelle</div><div class="metric-value accent">24</div><div class="metric-sub">Sliding Window steps</div></div>
+            <div class="metric-card"><i class="fas fa-database metric-icon"></i><div class="metric-label">Dataset</div><div class="metric-value" style="font-size:1rem;margin-top:6px;">Jena Climate</div><div class="metric-sub">2009 – 2016</div></div>
         </div>
-
-        <div class="card" style="margin-bottom:20px;">
-            <div class="card-header">
-                <div class="card-title">
-                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
-                    Réel vs Prédiction (Test Data)
-                </div>
-            </div>
-            <img src="results/lstm_predictions.png" alt="LSTM Predictions" class="result-img"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-            <canvas id="lstmPredChart" style="display:none;"></canvas>
-        </div>
-
-        <div class="card" style="margin-bottom:20px;">
-            <div class="card-header">
-                <div class="card-title">
-                    <div class="card-icon"><i class="fas fa-chart-area"></i></div>
-                    Training Loss History
-                </div>
-            </div>
-            <img src="results/lstm_history.png" alt="LSTM History" class="result-img"
-                 onerror="this.style.display='none'">
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">
-                    <div class="card-icon"><i class="fas fa-sitemap"></i></div>
-                    LSTMForecaster — Architecture
-                </div>
-            </div>
-            <pre class="code-block">
+        <div class="card" style="margin-bottom:20px;"><div class="card-header"><div class="card-title"><div class="card-icon"><i class="fas fa-chart-line"></i></div>Réel vs Prédiction (Test Data)</div></div><img src="results/lstm_predictions.png" alt="LSTM Predictions" class="result-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"><canvas id="lstmPredChart" style="display:none;"></canvas></div>
+        <div class="card" style="margin-bottom:20px;"><div class="card-header"><div class="card-title"><div class="card-icon"><i class="fas fa-chart-area"></i></div>Training Loss History</div></div><img src="results/lstm_history.png" alt="LSTM History" class="result-img" onerror="this.style.display='none'"></div>
+        <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon"><i class="fas fa-sitemap"></i></div>LSTMForecaster — Architecture</div></div><pre class="code-block">
 Model: LSTMForecaster
 _________________________________________________________________
  Layer (type)              Output Shape              Param #
@@ -1097,222 +1183,71 @@ _________________________________________________________________
  dropout2    (Dropout)     multiple                       0
  output      (Dense)       multiple                      65
 -----------------------------------------------------------------
-Total params: 116 033  (453.25 KB)   Trainable: 116 033</pre>
-        </div>
+Total params: 116 033  (453.25 KB)   
+Trainable: 116 033</pre></div>
     </div>
 
-    <!-- ════════════════════════════════════════════════
-         PANEL API LIVE
-    ════════════════════════════════════════════════ -->
+    <!-- Panel API (inchangé) -->
     <div id="api-panel" class="panel">
-
-        <!-- Connexion -->
         <div class="card" style="margin-bottom:20px;">
-            <div class="card-header">
-                <div class="card-title">
-                    <div class="card-icon"><i class="fas fa-server"></i></div>
-                    Connexion FastAPI
-                </div>
-                <button class="btn btn-sm btn-primary" onclick="checkApiHealth()">
-                    <i class="fas fa-heartbeat"></i> Health check
-                </button>
-            </div>
-            <div class="status-indicator" style="margin-top:4px;">
-                <div class="status-dot" id="api-status-dot"></div>
-                <span id="api-health-msg">En attente du health check…</span>
-            </div>
-            <p style="font-size:.76rem;color:var(--text-muted);margin-top:10px;">
-                <i class="fas fa-info-circle"></i>
-                &nbsp;Connexion automatique — locale en développement, production sur Render.
-            </p>
+            <div class="card-header"><div class="card-title"><div class="card-icon"><i class="fas fa-server"></i></div>Connexion FastAPI</div><button class="btn btn-sm btn-primary" onclick="checkApiHealth()"><i class="fas fa-heartbeat"></i> Health check</button></div>
+            <div class="status-indicator" style="margin-top:4px;"><div class="status-dot" id="api-status-dot"></div><span id="api-health-msg">En attente du health check…</span></div>
+            <p style="font-size:.76rem;color:var(--text-muted);margin-top:10px;"><i class="fas fa-info-circle"></i>&nbsp;Connexion automatique — locale en développement, production sur Render.</p>
         </div>
-
         <div class="grid-2">
-
-            <!-- Test CNN -->
             <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <div class="card-icon"><i class="fas fa-image"></i></div>
-                        Test Modèle CNN
-                    </div>
-                </div>
-                <p style="font-size:.83rem;color:var(--text-muted);margin-bottom:16px;">
-                    Uploadez une image JPEG/PNG. Elle sera redimensionnée en 32×32 et classifiée parmi les 10 classes CIFAR-10.
-                </p>
-
-                <label for="cnn-file-input">
-                    <div class="upload-zone" id="upload-zone">
-                        <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
-                        <div class="upload-text">Cliquez ou glissez une image</div>
-                        <div class="upload-hint">JPEG, PNG, WebP — max 10 MB</div>
-                    </div>
-                </label>
+                <div class="card-header"><div class="card-title"><div class="card-icon"><i class="fas fa-image"></i></div>Test Modèle CNN</div></div>
+                <p style="font-size:.83rem;color:var(--text-muted);margin-bottom:16px;">Uploadez une image JPEG/PNG. Elle sera redimensionnée en 32×32 et classifiée parmi les 10 classes CIFAR-10.</p>
+                <div class="cifar-warning"><strong>Limitations importantes du modèle CIFAR-10</strong>Ce modèle reconnaît uniquement les 10 classes ci-dessous. <strong>Les humains/personnes n'existent pas dans CIFAR-10</strong> et retourneront un résultat incorrect. Les classes en <span style="color:var(--accent2)">vert</span> fonctionnent mieux avec des photos réelles.<div class="cifar-classes"><span class="cifar-class-tag">avion</span><span class="cifar-class-tag">automobile</span><span class="cifar-class-tag photo-ok">oiseau</span><span class="cifar-class-tag photo-ok">chat</span><span class="cifar-class-tag photo-ok">cerf</span><span class="cifar-class-tag photo-ok">chien</span><span class="cifar-class-tag">grenouille</span><span class="cifar-class-tag photo-ok">cheval</span><span class="cifar-class-tag">bateau</span><span class="cifar-class-tag">camion</span></div></div>
+                <label for="cnn-file-input"><div class="upload-zone" id="upload-zone"><div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div><div class="upload-text">Cliquez ou glissez une image</div><div class="upload-hint">JPEG, PNG, WebP — max 10 MB</div></div></label>
                 <input type="file" id="cnn-file-input" accept="image/*">
-
-                <div class="preview-container" id="preview-container">
-                    <img id="image-preview" src="" alt="Aperçu">
-                    <div class="preview-meta">
-                        <div class="preview-name" id="file-name-display">—</div>
-                        <div class="preview-size" id="file-size-display">—</div>
-                        <button class="btn btn-primary btn-sm" id="cnn-predict-btn"
-                                onclick="predictImage()" style="margin-top:10px;">
-                            <div class="spinner" id="cnn-spinner"></div>
-                            <i class="fas fa-brain" id="cnn-predict-icon"></i>
-                            Classifier
-                        </button>
-                    </div>
-                </div>
-
-                <div class="result-panel" id="cnn-result">
-                    <div class="result-header">
-                        <div>
-                            <div class="result-label">Classe prédite</div>
-                            <div class="result-value" id="result-class">—</div>
-                        </div>
-                        <div style="text-align:right;">
-                            <div class="result-label">Confiance</div>
-                            <div class="result-confidence" id="result-confidence">—</div>
-                        </div>
-                    </div>
-                    <div class="confidence-track">
-                        <div class="confidence-fill" id="confidence-fill" style="width:0%"></div>
-                    </div>
-                    <div class="top3-grid" id="top3-grid"></div>
-                </div>
+                <div class="preview-container" id="preview-container"><img id="image-preview" src="" alt="Aperçu"><div class="preview-meta"><div class="preview-name" id="file-name-display">—</div><div class="preview-size" id="file-size-display">—</div><button class="btn btn-primary btn-sm" id="cnn-predict-btn" onclick="predictImage()"><div class="spinner" id="cnn-spinner"></div><i class="fas fa-brain" id="cnn-predict-icon"></i>Classifier</button></div></div>
+                <div class="result-panel" id="cnn-result"><div class="result-header"><div><div class="result-label">Classe prédite</div><div class="result-value" id="result-class">—</div></div><div style="text-align:right;"><div class="result-label">Confiance</div><div class="result-confidence" id="result-confidence">—</div><div class="confidence-badge" id="confidence-badge" style="display:none;"></div></div></div><div class="confidence-track"><div class="confidence-fill" id="confidence-fill" style="width:0%"></div></div><div class="top3-grid" id="top3-grid"></div><div class="result-warning" id="result-warning"></div></div>
             </div>
-
-            <!-- Test LSTM -->
             <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <div class="card-icon"><i class="fas fa-wave-square"></i></div>
-                        Test Modèle LSTM
-                    </div>
-                </div>
-                <p style="font-size:.83rem;color:var(--text-muted);margin-bottom:16px;">
-                    Entrez une séquence de valeurs séparées par des virgules. L'API prédit la valeur T+1.
-                </p>
-
-                <textarea class="seq-input" id="lstm-sequence"
-                          placeholder="Ex: 0.12, 0.15, 0.18, 0.21, 0.24, 0.27…"></textarea>
-
-                <div class="seq-actions">
-                    <button class="btn btn-sm" onclick="generateRandomSequence()">
-                        <i class="fas fa-random"></i> Exemple aléatoire
-                    </button>
-                    <button class="btn btn-sm btn-primary" id="lstm-predict-btn" onclick="predictLSTM()">
-                        <div class="spinner" id="lstm-spinner"></div>
-                        <i class="fas fa-brain" id="lstm-predict-icon"></i>
-                        Prédire T+1
-                    </button>
-                </div>
-
-                <div class="result-panel" id="lstm-result">
-                    <div class="result-label">Prédiction T+1</div>
-                    <div class="result-value" id="lstm-pred-value">—</div>
-                    <div style="font-size:.75rem;color:var(--text-muted);margin-top:4px;" id="lstm-seq-info"></div>
-                    <canvas id="lstmLiveChart" style="margin-top:14px;max-height:110px;"></canvas>
-                </div>
+                <div class="card-header"><div class="card-title"><div class="card-icon"><i class="fas fa-wave-square"></i></div>Test Modèle LSTM</div></div>
+                <p style="font-size:.83rem;color:var(--text-muted);margin-bottom:16px;">Entrez une séquence de valeurs séparées par des virgules. L'API prédit la valeur T+1.</p>
+                <textarea class="seq-input" id="lstm-sequence" placeholder="Ex: 0.12, 0.15, 0.18, 0.21, 0.24, 0.27…"></textarea>
+                <div class="seq-actions"><button class="btn btn-sm" onclick="generateRandomSequence()"><i class="fas fa-random"></i> Exemple aléatoire</button><button class="btn btn-sm btn-primary" id="lstm-predict-btn" onclick="predictLSTM()"><div class="spinner" id="lstm-spinner"></div><i class="fas fa-brain" id="lstm-predict-icon"></i>Prédire T+1</button></div>
+                <div class="result-panel" id="lstm-result"><div class="result-label">Prédiction T+1</div><div class="result-value" id="lstm-pred-value">—</div><div style="font-size:.75rem;color:var(--text-muted);margin-top:4px;" id="lstm-seq-info"></div><canvas id="lstmLiveChart" style="margin-top:14px;max-height:110px;"></canvas></div>
             </div>
-
         </div>
     </div>
 
-    <!-- ════════════════════════════════════════════════
-         PANEL LIVRABLES
-    ════════════════════════════════════════════════ -->
+    <!-- Panel Livrables (inchangé) -->
     <div id="deliverables-panel" class="panel">
-
         <div class="grid-2">
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <div class="card-icon"><i class="fas fa-tasks"></i></div>
-                        Exigences du Projet
-                    </div>
-                </div>
-                <div class="checklist">
-                    <div class="checklist-item">
-                        <div class="check-icon"><i class="fas fa-check"></i></div>
-                        <span>Dépôt GitHub structuré (Skeleton respecté)</span>
-                    </div>
-                    <div class="checklist-item">
-                        <div class="check-icon"><i class="fas fa-check"></i></div>
-                        <span>Modèle CNN via API Subclassing (CustomCNN)</span>
-                    </div>
-                    <div class="checklist-item">
-                        <div class="check-icon"><i class="fas fa-check"></i></div>
-                        <span>Data Augmentation native (tf.keras.layers)</span>
-                    </div>
-                    <div class="checklist-item">
-                        <div class="check-icon"><i class="fas fa-check"></i></div>
-                        <span>EarlyStopping + ModelCheckpoint configurés</span>
-                    </div>
-                    <div class="checklist-item">
-                        <div class="check-icon"><i class="fas fa-check"></i></div>
-                        <span>Sliding Window (timeseries_dataset_from_array)</span>
-                    </div>
-                    <div class="checklist-item">
-                        <div class="check-icon"><i class="fas fa-check"></i></div>
-                        <span>MinMaxScaler + inverse_transform appliqués</span>
-                    </div>
-                    <div class="checklist-item">
-                        <div class="check-icon"><i class="fas fa-check"></i></div>
-                        <span>Matrice de confusion + courbe réelle/prédiction</span>
-                    </div>
-                    <div class="checklist-item">
-                        <div class="check-icon"><i class="fas fa-check"></i></div>
-                        <span>Rapport PDF de 2 à 4 pages inclus</span>
-                    </div>
-                    <div class="checklist-item">
-                        <div class="check-icon"><i class="fas fa-check"></i></div>
-                        <span>Backend FastAPI déployé sur Render</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <div class="card-icon"><i class="fas fa-folder-tree"></i></div>
-                        Arborescence du Projet
-                    </div>
-                </div>
-                <pre class="code-block">deep_learning_project/
- ├── data/
- ├── models/
- │   ├── cnn_model.py
- │   ├── rnn_model.py
- │   └── saved/
- │       ├── cnn_model.keras
- │       └── rnn_model.keras
- ├── utils/
- │   ├── data_processing.py
- │   └── visualization.py
- ├── results/
- │   ├── cnn_history.png
- │   ├── cnn_confusion_matrix.png
- │   ├── lstm_history.png
- │   └── lstm_predictions.png
- ├── train.py
- ├── evaluate.py
- ├── main.py          ← FastAPI backend
- ├── neuralbase.html  ← Ce dashboard
- ├── README.md
- └── requirements.txt</pre>
-            </div>
+            <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon"><i class="fas fa-tasks"></i></div>Exigences du Projet</div></div><div class="checklist"><div class="checklist-item"><div class="check-icon"><i class="fas fa-check"></i></div><span>Dépôt GitHub structuré (Skeleton respecté)</span></div><div class="checklist-item"><div class="check-icon"><i class="fas fa-check"></i></div><span>Modèle CNN via API Subclassing (CustomCNN)</span></div><div class="checklist-item"><div class="check-icon"><i class="fas fa-check"></i></div><span>Data Augmentation native (tf.keras.layers)</span></div><div class="checklist-item"><div class="check-icon"><i class="fas fa-check"></i></div><span>EarlyStopping + ModelCheckpoint configurés</span></div><div class="checklist-item"><div class="check-icon"><i class="fas fa-check"></i></div><span>Sliding Window (timeseries_dataset_from_array)</span></div><div class="checklist-item"><div class="check-icon"><i class="fas fa-check"></i></div><span>MinMaxScaler + inverse_transform appliqués</span></div><div class="checklist-item"><div class="check-icon"><i class="fas fa-check"></i></div><span>Matrice de confusion + courbe réelle/prédiction</span></div><div class="checklist-item"><div class="check-icon"><i class="fas fa-check"></i></div><span>Rapport PDF de 2 à 4 pages inclus</span></div><div class="checklist-item"><div class="check-icon"><i class="fas fa-check"></i></div><span>Backend FastAPI déployé sur Render</span></div></div></div>
+            <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon"><i class="fas fa-folder-tree"></i></div>Arborescence du Projet</div></div><pre class="code-block">
+deep_learning_project/
+├── data/ 
+├── models/ 
+│   ├── cnn_model.py 
+│   ├── rnn_model.py 
+│   └── saved/ 
+│       ├── cnn_model.keras 
+│       └── rnn_model.keras 
+├── utils/ 
+│   ├── data_processing.py 
+│   └── visualization.py 
+├── results/ 
+│   ├── cnn_history.png 
+│   ├── cnn_confusion_matrix.png 
+│   ├── lstm_history.png 
+│   ├── lstm_predictions.png
+│   ├── image0.jpeg
+│   ├── image1.jpeg
+│   ├── image2.jpeg
+│   ├── image3.jpeg    
+│   └── image4.jpg
+├── train.py 
+├── evaluate.py 
+├── main.py          ← FastAPI backend 
+├── neuralbase.html  ← Ce dashboard 
+├── README.md 
+└── requirements.txt</pre></div>
         </div>
-
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">
-                    <div class="card-icon"><i class="fas fa-terminal"></i></div>
-                    Commandes de lancement
-                </div>
-            </div>
-            <pre class="code-block">
+        <div class="card"><div class="card-header"><div class="card-title"><div class="card-icon"><i class="fas fa-terminal"></i></div>Commandes de lancement</div></div><pre class="code-block">
 # 1. Installer les dépendances
 pip install -r requirements.txt
 
@@ -1329,346 +1264,245 @@ uvicorn main:app --reload --port 8000
 
 # 5. Déploiement Render (automatique via GitHub)
 #    Start Command → uvicorn main:app --host 0.0.0.0 --port $PORT
-#    Build Command → pip install -r requirements.txt</pre>
-        </div>
+#    Build Command → pip install -r requirements.txt</pre></div>
     </div>
 
+    <!-- ══════════════════════════════════════════════════════
+         PANEL ÉQUIPE AVEC PHOTOS EN CARRÉ
+    ══════════════════════════════════════════════════════ -->
+    <div id="team-panel" class="panel">
+        <div class="team-hero">
+            <div class="team-hero-title">Équipe du Projet</div>
+            <div class="team-hero-sub">Deep Learning · SDIA Niveau 3 · Promotion 2025–2026 · Dr. Noulapeu</div>
+        </div>
+        <div class="team-grid">
+            <!-- Membre 1 : AAT Ndongo -->
+            <div class="member-card">
+                <div class="member-photo">
+                    <img src="results/image4.jpg" alt="AAT Ndongo" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'photo-fallback\'><i class=\'fas fa-user-circle\' style=\'font-size:3rem;\'></i></div>'">
+                </div>
+                <div class="member-name">AAT Ndongo</div>
+                <div class="member-role">Chef de projet / Fullstack (M1)</div>
+                <ul class="member-contributions">
+                    <li>Gestion du dépôt GitHub, structure du projet & développement des endpoints API</li>
+                    <li>Création des pages web (HTML/CSS/JS) & intégration des modèles</li>
+                    <li>Points de synchronisation quotidiens</li>
+                </ul>
+                <div class="member-tag"><i class="fas fa-brain"></i> github administration</div>
+            </div>
+            <!-- Membre 2 : EVENGUE Philomène -->
+            <div class="member-card">
+                <div class="member-photo">
+                    <img src="results/image1.jpeg" alt="EVENGUE Philomène" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'photo-fallback\'><i class=\'fas fa-user-circle\' style=\'font-size:3rem;\'></i></div>'">
+                </div>
+                <div class="member-name">EVENGUE Philomène</div>
+                <div class="member-role">Ingénieur CNN (Data) (M2)</div>
+                <div class="member-role" style="font-size:0.7rem;">Préparation des données CNN</div>
+                <ul class="member-contributions">
+                    <li>Chargement de CIFAR‑10</li>
+                    <li>Normalisation des pixels & implémentation des couches de data augmentation (RandomFlip, RandomRotation)</li>
+                    <li>Normalisation MinMaxScaler et inverse_transform pour les métriques réelles</li>
+                    <li>Construction du pipeline tf.data.Dataset</li>
+                </ul>
+                <div class="member-tag"><i class="fas fa-wave-square"></i> CNN · CIFAR-10</div>
+            </div>
+            <!-- Membre 3 : HALIMATOU SADIYA -->
+            <div class="member-card">
+                <div class="member-photo">
+                    <img src="results/image0.jpeg" alt="HALIMATOU SADIYA" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'photo-fallback\'><i class=\'fas fa-user-circle\' style=\'font-size:3rem;\'></i></div>'">
+                </div>
+                <div class="member-name">HALIMATOU SADIYA</div>
+                <div class="member-role">Ingénieur CNN (Modèle) (M3)</div>
+                <div class="member-role" style="font-size:0.7rem;">Architecture et entraînement CNN</div>
+                <ul class="member-contributions">
+                    <li>Définition de la classe CustomCNN (3 couches Conv2D, MaxPooling2D, Flatten, Dense, Dropout)</li>
+                    <li>Compilation, entraînement avec EarlyStopping, sauvegarde du modèle en .keras</li>
+                    <li>Évaluation (matrice de confusion, courbes de perte)</li>
+                </ul>
+                <div class="member-tag"><i class="fas fa-server"></i> CNN TensorFlow</div>
+            </div>
+            <!-- Membre 4 : IVANA -->
+            <div class="member-card">
+                <div class="member-photo">
+                    <img src="results/image3.jpeg" alt="IVANA" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'photo-fallback\'><i class=\'fas fa-user-circle\' style=\'font-size:3rem;\'></i></div>'">
+                </div>
+                <div class="member-name">IVANA</div>
+                <div class="member-role">Préparation des données temporelles (M4)</div>
+                <ul class="member-contributions">
+                    <li>Téléchargement du dataset météo Jena Climate</li>
+                    <li>Normalisation avec MinMaxScaler</li>
+                    <li>Création des fenêtres glissantes via timeseries_dataset_from_array</li>
+                    <li>Séparation train/test</li>
+                </ul>
+                <div class="member-tag"><i class="fas fa-chart-bar"></i> RNN · JENA CLIMATE</div>
+            </div>
+            <!-- Membre 5 : ETIA PATRICK -->
+            <div class="member-card">
+                <div class="member-photo">
+                    <img src="results/image2.jpeg" alt="ETIA PATRICK" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'photo-fallback\'><i class=\'fas fa-user-circle\' style=\'font-size:3rem;\'></i></div>'">
+                </div>
+                <div class="member-name">ETIA PATRICK</div>
+                <div class="member-role">Architecture et entraînement LSTM (M5)</div>
+                <ul class="member-contributions">
+                    <li>Construction du modèle séquentiel avec une couche LSTM (return_sequences=False) suivie d’une couche dense</li>
+                    <li>Compilation avec MSE & entraînement</li>
+                    <li>Sauvegarde du modèle</li>
+                    <li>Génération des graphiques prédictions vs valeurs réelles</li>
+                </ul>
+                <div class="member-tag"><i class="fas fa-palette"></i> RNN - TensorFlow</div>
+            </div>
+        </div>
+        </div>
+    </div>
 </main>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<!-- ══════════════════════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════════════════════ -->
 <script>
-// ── Helpers ──────────────────────────────────────────────────────────────
-const $ = id => document.getElementById(id);
-
-// URL de l'API — déterminée automatiquement :
-// • En production (Render) : même origine que le frontend
-// • En local : fallback sur localhost:8000
-const getApiBase = () => {
-    const origin = window.location.origin;
-    if (origin.includes('localhost') || origin.includes('127.0.0.1') || origin.startsWith('file://')) {
-        return 'http://localhost:8000';
-    }
-    return origin; // https://n-base.onrender.com
-};
-
-// ── Navigation ───────────────────────────────────────────────────────────
-document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', () => {
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        item.classList.add('active');
-        $(item.dataset.target).classList.add('active');
-    });
-});
-
-// ── Thèmes ────────────────────────────────────────────────────────────────
-document.querySelectorAll('.swatch').forEach(swatch => {
-    swatch.addEventListener('click', () => {
-        const theme = swatch.dataset.themeTarget;
-        document.documentElement.setAttribute('data-theme', theme);
-        document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
-        swatch.classList.add('active');
-        // Re-render fallback charts si images absentes
-        setTimeout(() => {
-            if (cnnChart)  rebuildCnnChart();
-            if (lstmChart) rebuildLstmChart();
-        }, 120);
-    });
-});
-
-// ── Toast ─────────────────────────────────────────────────────────────────
-function showToast(msg, type = 'success') {
-    const t = $('toast');
-    t.textContent = msg;
-    t.className = `toast ${type} show`;
-    clearTimeout(t._timer);
-    t._timer = setTimeout(() => t.classList.remove('show'), 3800);
-}
-
-// ── Couleurs dynamiques ───────────────────────────────────────────────────
-const cssVar = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-
-function chartColors() {
-    return {
-        accent:  cssVar('--accent'),
-        accent2: cssVar('--accent2'),
-        muted:   cssVar('--text-muted'),
-        sub:     cssVar('--text-sub'),
-        grid:    cssVar('--border'),
+    // ── Helpers ──────────────────────────────────────────────────────────────
+    const $ = id => document.getElementById(id);
+    const getApiBase = () => {
+        const origin = window.location.origin;
+        if (origin.includes('localhost') || origin.includes('127.0.0.1') || origin.startsWith('file://')) return 'http://localhost:8000';
+        return origin;
     };
-}
-
-Chart.defaults.font.family = "'DM Sans', sans-serif";
-Chart.defaults.color = cssVar('--text-sub');
-
-// ── Fallback charts (si images non dispo) ────────────────────────────────
-let cnnChart, lstmChart, lstmLiveChart;
-
-function rebuildCnnChart() {
-    const c = chartColors();
-    const epochs = Array.from({length: 50}, (_, i) => i + 1);
-    const trainLoss = epochs.map(e => 2.0 * Math.exp(-0.10 * e) + 0.20);
-    const valLoss   = epochs.map(e => 2.0 * Math.exp(-0.08 * e) + 0.40);
-
-    if (cnnChart) cnnChart.destroy();
-    const ctx = $('cnnLossChart');
-    if (!ctx || ctx.style.display === 'none') return;
-
-    cnnChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: epochs,
-            datasets: [
-                { label: 'Train Loss', data: trainLoss, borderColor: c.accent,
-                  tension: .4, borderWidth: 2, pointRadius: 0, fill: false },
-                { label: 'Val Loss',   data: valLoss,   borderColor: c.accent2,
-                  tension: .4, borderWidth: 2, pointRadius: 0, fill: false }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 16 } } },
-            scales: {
-                x: { grid: { color: c.grid }, ticks: { color: c.muted } },
-                y: { grid: { color: c.grid }, ticks: { color: c.muted }, suggestedMin: 0 }
-            }
-        }
-    });
-}
-
-function rebuildLstmChart() {
-    const c = chartColors();
-    const pts = 100;
-    const actual    = Array.from({length: pts}, (_, i) => 10 + 5 * Math.sin(i * .12) + (Math.random()-.5));
-    const predicted = actual.map(v => v + (Math.random()-.5) * 1.2);
-
-    if (lstmChart) lstmChart.destroy();
-    const ctx = $('lstmPredChart');
-    if (!ctx || ctx.style.display === 'none') return;
-
-    lstmChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: Array.from({length: pts}, (_, i) => i),
-            datasets: [
-                { label: 'Valeur Réelle', data: actual,
-                  borderColor: c.muted, borderWidth: 1.5, tension: .2,
-                  pointRadius: 0, borderDash: [5,5] },
-                { label: 'Prédiction T+1', data: predicted,
-                  borderColor: c.accent2, borderWidth: 2, tension: .2,
-                  pointRadius: 0 }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { position: 'top', labels: { usePointStyle: true } } },
-            scales: {
-                x: { display: false },
-                y: { grid: { color: c.grid }, ticks: { color: c.muted } }
-            }
-        }
-    });
-}
-
-// ── API Health Check ──────────────────────────────────────────────────────
-async function checkApiHealth() {
-    const dot = $('api-status-dot');
-    const msg = $('api-health-msg');
-    dot.className = 'status-dot';
-    msg.textContent = 'Vérification en cours…';
-
-    try {
-        const res  = await fetch(`${getApiBase()}/health`, { signal: AbortSignal.timeout(5000) });
-        const data = await res.json();
-
-        dot.className = 'status-dot online';
-        const cnn  = data.cnn_loaded  ? `<span style="color:var(--accent2)">chargé</span>`  : `<span style="color:var(--danger)">absent</span>`;
-        const lstm = data.lstm_loaded ? `<span style="color:var(--accent2)">chargé</span>` : `<span style="color:var(--danger)">absent</span>`;
-        msg.innerHTML = `API opérationnelle &nbsp;·&nbsp; CNN: ${cnn} &nbsp;·&nbsp; LSTM: ${lstm}`;
-        showToast('API connectée avec succès !', 'success');
-
-    } catch {
-        dot.className = 'status-dot offline';
-        msg.textContent = 'Impossible de joindre l\'API. Vérifiez l\'URL ou lancez uvicorn main:app --reload';
-        showToast('Connexion échouée', 'error');
-    }
-}
-
-// ── CNN — Upload & Predict ────────────────────────────────────────────────
-const fileInput   = $('cnn-file-input');
-const previewCont = $('preview-container');
-const previewImg  = $('image-preview');
-
-fileInput.addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-        previewImg.src = ev.target.result;
-        previewCont.style.display = 'flex';
-        $('file-name-display').textContent = file.name;
-        $('file-size-display').textContent = `${(file.size / 1024).toFixed(1)} KB`;
-        $('cnn-result').style.display = 'none';
-    };
-    reader.readAsDataURL(file);
-});
-
-// Drag & drop
-const uploadZone = $('upload-zone');
-['dragenter','dragover'].forEach(ev => uploadZone.addEventListener(ev, e => { e.preventDefault(); uploadZone.classList.add('dragover'); }));
-['dragleave','drop'].forEach(ev => uploadZone.addEventListener(ev, e => { e.preventDefault(); uploadZone.classList.remove('dragover'); }));
-uploadZone.addEventListener('drop', e => {
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
-        const dt = new DataTransfer();
-        dt.items.add(file);
-        fileInput.files = dt.files;
-        fileInput.dispatchEvent(new Event('change'));
-    }
-});
-
-async function predictImage() {
-    const file = fileInput.files[0];
-    if (!file) { showToast('Veuillez choisir une image', 'error'); return; }
-
-    const btn     = $('cnn-predict-btn');
-    const spinner = $('cnn-spinner');
-    const icon    = $('cnn-predict-icon');
-
-    btn.disabled = true;
-    spinner.style.display = 'block';
-    icon.style.display    = 'none';
-
-    try {
-        const formData = new FormData();
-        formData.append('file', file);
-
-        const res = await fetch(`${getApiBase()}/predict/cnn`, {
-            method: 'POST', body: formData,
-            signal: AbortSignal.timeout(15000),
+    // Navigation
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            item.classList.add('active');
+            $(item.dataset.target).classList.add('active');
         });
-
-        if (!res.ok) { const err = await res.json(); throw new Error(err.detail || `HTTP ${res.status}`); }
-
-        const data = await res.json();
-        displayCNNResult(data.data);
-        showToast(`${data.data.predicted_class} — ${(data.data.confidence * 100).toFixed(1)}% confiance`, 'success');
-
-    } catch (err) {
-        showToast(`Erreur : ${err.message}`, 'error');
-    } finally {
-        btn.disabled = false;
-        spinner.style.display = 'none';
-        icon.style.display    = '';
-    }
-}
-
-function displayCNNResult(data) {
-    const panel = $('cnn-result');
-    panel.style.display = 'block';
-
-    $('result-class').textContent       = data.predicted_class;
-    $('result-confidence').textContent  = `${(data.confidence * 100).toFixed(1)}%`;
-    $('confidence-fill').style.width    = `${(data.confidence * 100).toFixed(1)}%`;
-
-    $('top3-grid').innerHTML = data.top3.map((item, i) => `
-        <div class="top3-item">
-            <div class="top3-class">${i === 0 ? '🥇 ' : i === 1 ? '🥈 ' : '🥉 '}${item.class}</div>
-            <div class="top3-prob">${(item.probability * 100).toFixed(1)}%</div>
-        </div>
-    `).join('');
-}
-
-// ── LSTM — Predict ────────────────────────────────────────────────────────
-function generateRandomSequence() {
-    const seq = Array.from({length: 24}, (_, i) =>
-        +(0.3 + 0.4 * Math.sin(i * .3) + (Math.random()-.5) * .1).toFixed(4)
-    );
-    $('lstm-sequence').value = seq.join(', ');
-}
-
-async function predictLSTM() {
-    const raw = $('lstm-sequence').value.trim();
-    if (!raw) { showToast('Entrez une séquence de valeurs', 'error'); return; }
-
-    const sequence = raw.split(',').map(v => parseFloat(v.trim())).filter(v => !isNaN(v));
-    if (sequence.length < 2) { showToast('Au moins 2 valeurs requises', 'error'); return; }
-
-    const btn     = $('lstm-predict-btn');
-    const spinner = $('lstm-spinner');
-    const icon    = $('lstm-predict-icon');
-
-    btn.disabled = true;
-    spinner.style.display = 'block';
-    icon.style.display    = 'none';
-
-    try {
-        const res = await fetch(`${getApiBase()}/predict/lstm`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ sequence }),
-            signal: AbortSignal.timeout(10000),
-        });
-
-        if (!res.ok) { const err = await res.json(); throw new Error(err.detail || `HTTP ${res.status}`); }
-
-        const data = await res.json();
-        displayLSTMResult(sequence, data.data.prediction_t_plus_1);
-        showToast(`Prédiction T+1 : ${data.data.prediction_t_plus_1.toFixed(4)}`, 'success');
-
-    } catch (err) {
-        showToast(`Erreur : ${err.message}`, 'error');
-    } finally {
-        btn.disabled = false;
-        spinner.style.display = 'none';
-        icon.style.display    = '';
-    }
-}
-
-function displayLSTMResult(sequence, prediction) {
-    const panel = $('lstm-result');
-    panel.style.display = 'block';
-
-    $('lstm-pred-value').textContent = prediction.toFixed(6);
-    $('lstm-seq-info').textContent = `${sequence.length} valeurs en entrée → valeur prédite à T+${sequence.length + 1}`;
-
-    const c = chartColors();
-    const labels   = [...sequence.map((_, i) => `t-${sequence.length - i}`), 'T+1'];
-    const seqData  = [...sequence, null];
-    const predData = [...Array(sequence.length).fill(null), prediction];
-
-    if (lstmLiveChart) lstmLiveChart.destroy();
-    lstmLiveChart = new Chart($('lstmLiveChart'), {
-        type: 'line',
-        data: {
-            labels,
-            datasets: [
-                { label: 'Séquence', data: seqData,
-                  borderColor: c.sub, borderWidth: 1.5,
-                  pointRadius: 0, tension: .3, spanGaps: false },
-                { label: 'T+1', data: predData,
-                  borderColor: c.accent2, borderWidth: 0,
-                  pointRadius: 8, pointBackgroundColor: c.accent2,
-                  pointBorderColor: '#fff', pointBorderWidth: 2,
-                  spanGaps: false }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { display: false },
-                y: { grid: { color: c.grid }, ticks: { color: c.muted, font: { size: 10 } } }
-            }
-        }
     });
-}
+    // Thèmes
+    document.querySelectorAll('.swatch').forEach(swatch => {
+        swatch.addEventListener('click', () => {
+            const theme = swatch.dataset.themeTarget;
+            document.documentElement.setAttribute('data-theme', theme);
+            document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+            swatch.classList.add('active');
+            setTimeout(() => { if (cnnChart) rebuildCnnChart(); if (lstmChart) rebuildLstmChart(); }, 120);
+        });
+    });
+    function showToast(msg, type = 'success') {
+        const t = $('toast');
+        t.textContent = msg;
+        t.className = `toast ${type} show`;
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => t.classList.remove('show'), 3800);
+    }
+    const cssVar = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+    function chartColors() { return { accent: cssVar('--accent'), accent2: cssVar('--accent2'), muted: cssVar('--text-muted'), sub: cssVar('--text-sub'), grid: cssVar('--border') }; }
+    Chart.defaults.font.family = "'DM Sans', sans-serif";
+    Chart.defaults.color = cssVar('--text-sub');
+    let cnnChart, lstmChart, lstmLiveChart;
+    function rebuildCnnChart() {
+        const c = chartColors();
+        const epochs = Array.from({length: 50}, (_, i) => i + 1);
+        const trainLoss = epochs.map(e => 2.0 * Math.exp(-0.10 * e) + 0.20);
+        const valLoss   = epochs.map(e => 2.0 * Math.exp(-0.08 * e) + 0.40);
+        if (cnnChart) cnnChart.destroy();
+        const ctx = $('cnnLossChart');
+        if (!ctx || ctx.style.display === 'none') return;
+        cnnChart = new Chart(ctx, { type: 'line', data: { labels: epochs, datasets: [{ label: 'Train Loss', data: trainLoss, borderColor: c.accent, tension: .4, borderWidth: 2, pointRadius: 0, fill: false }, { label: 'Val Loss', data: valLoss, borderColor: c.accent2, tension: .4, borderWidth: 2, pointRadius: 0, fill: false }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 16 } } }, scales: { x: { grid: { color: c.grid }, ticks: { color: c.muted } }, y: { grid: { color: c.grid }, ticks: { color: c.muted }, suggestedMin: 0 } } } });
+    }
+    function rebuildLstmChart() {
+        const c = chartColors();
+        const pts = 100;
+        const actual = Array.from({length: pts}, (_, i) => 10 + 5 * Math.sin(i * .12) + (Math.random()-.5));
+        const predicted = actual.map(v => v + (Math.random()-.5) * 1.2);
+        if (lstmChart) lstmChart.destroy();
+        const ctx = $('lstmPredChart');
+        if (!ctx || ctx.style.display === 'none') return;
+        lstmChart = new Chart(ctx, { type: 'line', data: { labels: Array.from({length: pts}, (_, i) => i), datasets: [{ label: 'Valeur Réelle', data: actual, borderColor: c.muted, borderWidth: 1.5, tension: .2, pointRadius: 0, borderDash: [5,5] }, { label: 'Prédiction T+1', data: predicted, borderColor: c.accent2, borderWidth: 2, tension: .2, pointRadius: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { usePointStyle: true } } }, scales: { x: { display: false }, y: { grid: { color: c.grid }, ticks: { color: c.muted } } } } });
+    }
+    // API Health
+    async function checkApiHealth() {
+        const dot = $('api-status-dot'), msg = $('api-health-msg');
+        dot.className = 'status-dot';
+        msg.textContent = 'Vérification en cours…';
+        try {
+            const res = await fetch(`${getApiBase()}/health`, { signal: AbortSignal.timeout(5000) });
+            const data = await res.json();
+            dot.className = 'status-dot online';
+            const cnn = data.cnn_loaded ? `<span style="color:var(--accent2)">chargé</span>` : `<span style="color:var(--danger)">absent</span>`;
+            const lstm = data.lstm_loaded ? `<span style="color:var(--accent2)">chargé</span>` : `<span style="color:var(--danger)">absent</span>`;
+            msg.innerHTML = `API opérationnelle &nbsp;·&nbsp; CNN: ${cnn} &nbsp;·&nbsp; LSTM: ${lstm}`;
+            showToast('API connectée avec succès !', 'success');
+        } catch {
+            dot.className = 'status-dot offline';
+            msg.textContent = 'Impossible de joindre l\'API. Vérifiez l\'URL ou lancez uvicorn main:app --reload';
+            showToast('Connexion échouée', 'error');
+        }
+    }
+    // CNN
+    const fileInput = $('cnn-file-input'), previewCont = $('preview-container'), previewImg = $('image-preview');
+    fileInput.addEventListener('change', e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => { previewImg.src = ev.target.result; previewCont.style.display = 'flex'; $('file-name-display').textContent = file.name; $('file-size-display').textContent = `${(file.size / 1024).toFixed(1)} KB`; $('cnn-result').style.display = 'none'; };
+        reader.readAsDataURL(file);
+    });
+    const uploadZone = $('upload-zone');
+    ['dragenter','dragover'].forEach(ev => uploadZone.addEventListener(ev, e => { e.preventDefault(); uploadZone.classList.add('dragover'); }));
+    ['dragleave','drop'].forEach(ev => uploadZone.addEventListener(ev, e => { e.preventDefault(); uploadZone.classList.remove('dragover'); }));
+    uploadZone.addEventListener('drop', e => { const file = e.dataTransfer.files[0]; if (file && file.type.startsWith('image/')) { const dt = new DataTransfer(); dt.items.add(file); fileInput.files = dt.files; fileInput.dispatchEvent(new Event('change')); } });
+    async function predictImage() {
+        const file = fileInput.files[0];
+        if (!file) { showToast('Veuillez choisir une image', 'error'); return; }
+        const btn = $('cnn-predict-btn'), spinner = $('cnn-spinner'), icon = $('cnn-predict-icon');
+        btn.disabled = true; spinner.style.display = 'block'; icon.style.display = 'none';
+        try {
+            const formData = new FormData(); formData.append('file', file);
+            const res = await fetch(`${getApiBase()}/predict/cnn`, { method: 'POST', body: formData, signal: AbortSignal.timeout(15000) });
+            if (!res.ok) { const err = await res.json(); throw new Error(err.detail || `HTTP ${res.status}`); }
+            const data = await res.json();
+            const warnEl = $('result-warning');
+            if (data.warning) { warnEl.textContent = data.warning; warnEl.style.display = 'block'; } else warnEl.style.display = 'none';
+            const r = data.data;
+            $('cnn-result').style.display = 'block';
+            $('result-class').textContent = r.predicted_class;
+            $('result-confidence').textContent = `${(r.confidence * 100).toFixed(1)}%`;
+            $('confidence-fill').style.width = `${(r.confidence * 100).toFixed(1)}%`;
+            const level = r.confidence_level || (r.confidence >= 0.70 ? 'haute' : r.confidence >= 0.40 ? 'moyenne' : 'faible');
+            const icons = { haute: '✅ Confiance haute', moyenne: '⚠️ Confiance moyenne', faible: '🔴 Confiance faible' };
+            const badge = $('confidence-badge'); badge.textContent = icons[level] || level; badge.className = `confidence-badge ${level}`; badge.style.display = 'inline-flex';
+            $('top3-grid').innerHTML = r.top3.map((item, i) => `<div class="top3-item"><div class="top3-class">${i === 0 ? '🥇 ' : i === 1 ? '🥈 ' : '🥉 '}${item.class}</div><div class="top3-prob">${(item.probability * 100).toFixed(1)}%</div></div>`).join('');
+            showToast(`${r.predicted_class} — ${(r.confidence * 100).toFixed(1)}% confiance`, 'success');
+        } catch (err) { showToast(`Erreur : ${err.message}`, 'error'); } finally { btn.disabled = false; spinner.style.display = 'none'; icon.style.display = ''; }
+    }
+    // LSTM
+    function generateRandomSequence() { const seq = Array.from({length: 24}, (_, i) => +(0.3 + 0.4 * Math.sin(i * .3) + (Math.random()-.5) * .1).toFixed(4)); $('lstm-sequence').value = seq.join(', '); }
+    async function predictLSTM() {
+        const raw = $('lstm-sequence').value.trim();
+        if (!raw) { showToast('Entrez une séquence de valeurs', 'error'); return; }
+        const sequence = raw.split(',').map(v => parseFloat(v.trim())).filter(v => !isNaN(v));
+        if (sequence.length < 2) { showToast('Au moins 2 valeurs requises', 'error'); return; }
+        const btn = $('lstm-predict-btn'), spinner = $('lstm-spinner'), icon = $('lstm-predict-icon');
+        btn.disabled = true; spinner.style.display = 'block'; icon.style.display = 'none';
+        try {
+            const res = await fetch(`${getApiBase()}/predict/lstm`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sequence }), signal: AbortSignal.timeout(10000) });
+            if (!res.ok) { const err = await res.json(); throw new Error(err.detail || `HTTP ${res.status}`); }
+            const data = await res.json();
+            const prediction = data.data.prediction_t_plus_1;
+            $('lstm-result').style.display = 'block';
+            $('lstm-pred-value').textContent = prediction.toFixed(6);
+            $('lstm-seq-info').textContent = `${sequence.length} valeurs en entrée → valeur prédite à T+${sequence.length + 1}`;
+            const c = chartColors();
+            const labels = [...sequence.map((_, i) => `t-${sequence.length - i}`), 'T+1'];
+            const seqData = [...sequence, null];
+            const predData = [...Array(sequence.length).fill(null), prediction];
+            if (lstmLiveChart) lstmLiveChart.destroy();
+            lstmLiveChart = new Chart($('lstmLiveChart'), { type: 'line', data: { labels, datasets: [{ label: 'Séquence', data: seqData, borderColor: c.sub, borderWidth: 1.5, pointRadius: 0, tension: .3, spanGaps: false }, { label: 'T+1', data: predData, borderColor: c.accent2, borderWidth: 0, pointRadius: 8, pointBackgroundColor: c.accent2, pointBorderColor: '#fff', pointBorderWidth: 2, spanGaps: false }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { grid: { color: c.grid }, ticks: { color: c.muted, font: { size: 10 } } } } } });
+            showToast(`Prédiction T+1 : ${prediction.toFixed(4)}`, 'success');
+        } catch (err) { showToast(`Erreur : ${err.message}`, 'error'); } finally { btn.disabled = false; spinner.style.display = 'none'; icon.style.display = ''; }
+    }
+    window.checkApiHealth = checkApiHealth;
+    window.predictImage = predictImage;
+    window.generateRandomSequence = generateRandomSequence;
+    window.predictLSTM = predictLSTM;
 </script>
-
 </body>
 </html>
