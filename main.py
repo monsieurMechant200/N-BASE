@@ -1,20 +1,8 @@
 """
 main.py — Backend FastAPI · NeuralBase ML Studio  v2
 =====================================================
-Améliorations v2 :
-  ✅ Preprocessing image amélioré (centrage + normalisation robuste)
-  ✅ Avertissement clair si confiance < 40% (image hors-distribution)
-  ✅ Détection images non-CIFAR (humains, etc.) avec message explicatif
-  ✅ Route /predict/cnn/demo pour tester avec images CIFAR standards
-  ✅ Endpoint /model/info retournant les infos complètes des modèles
-  ✅ Meilleure gestion des erreurs avec messages détaillés
-  ✅ Fallback automatique .keras ↔ .h5 si le format principal est absent
-
 Démarrage local :
     uvicorn main:app --reload --port 8000
-
-Déploiement Render :
-    Start Command → uvicorn main:app --host 0.0.0.0 --port $PORT
 """
 
 from __future__ import annotations
@@ -34,26 +22,20 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from PIL import Image, ImageOps
 from pydantic import BaseModel, Field, field_validator
 
-# ── Correctif critique : enregistrer les classes custom AVANT load_model()
 try:
     from models.cnn_model import CustomCNN, ResBlock
 except ImportError:
     from models.cnn_model import CustomCNN
     ResBlock = None
-from models.rnn_model import LSTMForecaster         # noqa: F401
+from models.rnn_model import LSTMForecaster 
 
 # Dictionnaire passé à load_model() pour désérialiser les classes custom
-# correctement, même si l'architecture a évolué entre deux versions.
 CUSTOM_OBJECTS = {
     "CustomCNN":      CustomCNN,
     "ResBlock":       ResBlock,
     "LSTMForecaster": LSTMForecaster,
 }
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-# Logging
-# ══════════════════════════════════════════════════════════════════════════════
 
 logging.basicConfig(
     level=logging.INFO,
@@ -63,17 +45,13 @@ logging.basicConfig(
 logger = logging.getLogger("neuralbase")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# Configuration
-# ══════════════════════════════════════════════════════════════════════════════
-
 CNN_PATH  = os.getenv("CNN_MODEL_PATH",  "models/saved/cnn_model.keras")
 LSTM_PATH = os.getenv("LSTM_MODEL_PATH", "models/saved/rnn_model.keras")
 
 MAX_IMAGE_SIZE_MB = int(os.getenv("MAX_IMAGE_MB", 10))
 MAX_IMAGE_BYTES   = MAX_IMAGE_SIZE_MB * 1024 * 1024
 
-# Seuil de confiance minimum — en dessous, on avertit l'utilisateur
+# Seuil de confiance minimum en dessous, on avertit l'utilisateur
 CONFIDENCE_WARNING_THRESHOLD = 0.40
 
 CIFAR10_CLASSES = [
@@ -86,24 +64,17 @@ PHOTO_FRIENDLY_CLASSES = {"chat", "chien", "cheval", "cerf", "oiseau"}
 
 # Message important sur les limitations du modèle
 CIFAR10_LIMITATION_MSG = (
-    "⚠️ CIFAR-10 ne contient PAS de classe 'humain/personne'. "
+    "CIFAR-10 ne contient PAS de classe 'humain/personne'. "
     "Le modèle est entraîné sur des images 32×32 très basse résolution. "
     "Pour les photos réelles, la confiance sera souvent faible."
 )
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-# Utilitaire : résolution du chemin modèle avec fallback .keras ↔ .h5
-# ══════════════════════════════════════════════════════════════════════════════
 
 def resolve_model_path(primary: str) -> tuple[str | None, str]:
     """
     Cherche le modèle dans l'ordre :
       1. primary            (chemin configuré via env ou défaut)
       2. extension basculée (.keras ↔ .h5)
-
-    Retourne (chemin_résolu, message_log).
-    Retourne (None, message_erreur) si aucun fichier trouvé.
     """
     if os.path.exists(primary):
         return primary, f"Chargé depuis : {primary}"
@@ -122,11 +93,6 @@ def resolve_model_path(primary: str) -> tuple[str | None, str]:
     tried = [primary] + ([fallback] if fallback else [])
     return None, "Fichier introuvable parmi : " + ", ".join(tried)
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-# Registre des modèles
-# ══════════════════════════════════════════════════════════════════════════════
-
 class ModelRegistry:
     cnn:  Optional[tf.keras.Model] = None
     lstm: Optional[tf.keras.Model] = None
@@ -140,16 +106,12 @@ class ModelRegistry:
 registry = ModelRegistry()
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# Lifespan
-# ══════════════════════════════════════════════════════════════════════════════
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     t0 = time.perf_counter()
     logger.info("⚡ Chargement des modèles…")
 
-    # ── CNN ──────────────────────────────────────────────────────────────────
+    #CNN
     cnn_path, cnn_msg = resolve_model_path(CNN_PATH)
     if cnn_path:
         try:
@@ -159,15 +121,15 @@ async def lifespan(app: FastAPI):
                 compile=False,
             )
             registry.cnn_resolved_path = cnn_path
-            logger.info("✅ CNN chargé : %s", cnn_msg)
+            logger.info("CNN chargé : %s", cnn_msg)
         except Exception as exc:
             registry.cnn_load_error = str(exc)
-            logger.error("❌ Échec CNN (%s) : %s", cnn_path, exc)
+            logger.error("Échec CNN (%s) : %s", cnn_path, exc)
     else:
         registry.cnn_load_error = cnn_msg
-        logger.warning("⚠️  CNN absent → %s | Lancez : python train.py --mission cnn", cnn_msg)
+        logger.warning("CNN absent → %s | Lancez : python train.py --mission cnn", cnn_msg)
 
-    # ── LSTM ─────────────────────────────────────────────────────────────────
+    # LSTM
     lstm_path, lstm_msg = resolve_model_path(LSTM_PATH)
     if lstm_path:
         try:
@@ -177,25 +139,21 @@ async def lifespan(app: FastAPI):
                 compile=False,
             )
             registry.lstm_resolved_path = lstm_path
-            logger.info("✅ LSTM chargé : %s", lstm_msg)
+            logger.info("LSTM chargé : %s", lstm_msg)
         except Exception as exc:
             registry.lstm_load_error = str(exc)
-            logger.error("❌ Échec LSTM (%s) : %s", lstm_path, exc)
+            logger.error("Échec LSTM (%s) : %s", lstm_path, exc)
     else:
         registry.lstm_load_error = lstm_msg
-        logger.warning("⚠️  LSTM absent → %s | Lancez : python train.py --mission lstm", lstm_msg)
+        logger.warning("LSTM absent → %s | Lancez : python train.py --mission lstm", lstm_msg)
 
     registry.startup_time = round(time.perf_counter() - t0, 3)
-    logger.info("🚀 API prête en %.3f s", registry.startup_time)
+    logger.info("API prête en %.3f s", registry.startup_time)
     yield
-    logger.info("🛑 Arrêt de l'API")
+    logger.info("Arrêt de l'API")
     tf.keras.backend.clear_session()
 
-
-# ══════════════════════════════════════════════════════════════════════════════
 # Application
-# ══════════════════════════════════════════════════════════════════════════════
-
 app = FastAPI(
     title="NeuralBase · ML Studio API v2",
     description=(
@@ -240,11 +198,7 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"success": False, "message": "Erreur interne du serveur.", "data": {}},
     )
 
-
-# ══════════════════════════════════════════════════════════════════════════════
 # Schémas Pydantic
-# ══════════════════════════════════════════════════════════════════════════════
-
 class LSTMRequest(BaseModel):
     sequence: List[float] = Field(
         ..., min_length=2, max_length=500,
@@ -266,11 +220,7 @@ class APIResponse(BaseModel):
     warning: Optional[str] = None
     data: Dict = {}
 
-
-# ══════════════════════════════════════════════════════════════════════════════
-# Utilitaires — Preprocessing image
-# ══════════════════════════════════════════════════════════════════════════════
-
+# Preprocessing image
 def preprocess_image_for_cifar(image_bytes: bytes) -> np.ndarray:
     """
     Prétraitement robuste pour CIFAR-10 :
@@ -296,10 +246,7 @@ def preprocess_image_for_cifar(image_bytes: bytes) -> np.ndarray:
 
 
 def build_warning(confidence: float, predicted_class: str) -> Optional[str]:
-    """
-    Construit un message d'avertissement contextuel si nécessaire.
-    Retourne None si tout va bien.
-    """
+    # Construit un message d'avertissement contextuel si nécessaire. Retourne None si tout va bien.
     warnings = []
 
     if confidence < CONFIDENCE_WARNING_THRESHOLD:
@@ -310,18 +257,14 @@ def build_warning(confidence: float, predicted_class: str) -> Optional[str]:
         )
 
     warnings.append(
-        "📌 CIFAR-10 reconnaît uniquement : avion, automobile, oiseau, "
+        "CIFAR-10 reconnaît uniquement : avion, automobile, oiseau, "
         "chat, cerf, chien, grenouille, cheval, bateau, camion. "
         "Les humains/personnes ne font PAS partie des classes entraînées."
     )
 
     return " | ".join(warnings) if warnings else None
 
-
-# ══════════════════════════════════════════════════════════════════════════════
 # Routes
-# ══════════════════════════════════════════════════════════════════════════════
-
 @app.get("/", include_in_schema=False)
 async def root():
     return RedirectResponse(url="/docs")
@@ -393,14 +336,6 @@ async def model_info():
     tags=["Modèles"],
 )
 async def predict_image(file: UploadFile = File(..., description="Image JPEG/PNG/WebP")):
-    """
-    Classifie une image parmi les 10 classes CIFAR-10.
-
-    ⚠️ **Limitations importantes** :
-    - Les **humains/personnes** ne font PAS partie de CIFAR-10 → résultat non fiable
-    - Optimal pour : chiens, chats, chevaux, oiseaux, véhicules, bateaux
-    - L'image est redimensionnée en 32×32 (très basse résolution)
-    """
     if registry.cnn is None:
         raise HTTPException(
             status_code=503,
