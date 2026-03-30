@@ -1,11 +1,3 @@
-"""
-models/rnn_model.py
-Définition de l'architecture LSTM pour la prédiction de série temporelle (T+1).
-
-CORRECTIF : @register_keras_serializable() + get_config() ajoutés
-pour permettre le rechargement du modèle via load_model().
-"""
-
 import tensorflow as tf
 from tensorflow.keras import layers, Model
 from tensorflow.keras.saving import register_keras_serializable
