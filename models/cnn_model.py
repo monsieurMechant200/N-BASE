@@ -1,12 +1,3 @@
-"""
-models/cnn_model.py
-Définition de l'architecture CNN via l'API Subclassing de Keras.
-Jeu de données cible : CIFAR-10 (32x32, 10 classes)
-
-CORRECTIF : @register_keras_serializable() + get_config() ajoutés
-pour permettre le rechargement du modèle via load_model().
-"""
-
 import tensorflow as tf
 from tensorflow.keras import layers, Model
 from tensorflow.keras.saving import register_keras_serializable
@@ -82,7 +73,6 @@ class CustomCNN(Model):
 
 
 def build_cnn(num_classes: int = 10) -> CustomCNN:
-    """Instancie et retourne le modèle CustomCNN."""
     model = CustomCNN(num_classes=num_classes)
     model.build(input_shape=(None, 32, 32, 3))
     return model
