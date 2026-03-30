@@ -1,11 +1,3 @@
-"""
-utils/visualization.py
-Fonctions de visualisation pour les deux missions :
-  - Courbes de perte (Training History)
-  - Matrice de confusion (CNN)
-  - Courbe réelle vs prédiction (LSTM)
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
@@ -52,17 +44,11 @@ def save_fig(fig: plt.Figure, path: str):
     print(f"[✓] Figure sauvegardée : {path}")
     plt.close(fig)
 
-
-
 # MISSION 1 — CNN
-
 
 def plot_training_history(history, save_path: str = "results/cnn_history.png"):
     """
     Trace les courbes Train Loss / Val Loss et Train Acc / Val Acc.
-
-    Paramètres
-    ----------
     history : objet retourné par model.fit()
     """
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
@@ -134,17 +120,12 @@ def plot_confusion_matrix(y_true: np.ndarray,
 
 
 # MISSION 2 — LSTM
-
-
 def plot_lstm_predictions(y_true: np.ndarray,
                           y_pred: np.ndarray,
                           title: str = "Jena Climate — Température",
                           save_path: str = "results/lstm_predictions.png"):
     """
     Superpose la courbe réelle et la courbe prédite (valeurs dé-normalisées).
-
-    Paramètres
-    ----------
     y_true : valeurs réelles après inverse_transform
     y_pred : valeurs prédites après inverse_transform
     """
