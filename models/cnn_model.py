@@ -90,4 +90,4 @@ def build_cnn(num_classes: int = 10) -> CustomCNN:
 
 if __name__ == "__main__":
     model = build_cnn()
-    model.summary()
+    model.summary() 
