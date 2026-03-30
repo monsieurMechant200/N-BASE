@@ -33,7 +33,7 @@ Le déploiement Render n'est plus disponible ; le projet tourne intégralement e
 neuralbase/
 ├── main.py                          # Backend FastAPI (API v2)
 ├── train.py                         # Script d'entraînement (CNN + LSTM)
-├── evaluate-checkpoint.py           # Script d'évaluation post-entraînement
+├── evaluate.py           # Script d'évaluation post-entraînement
 ├── neuralbase.html                  # Interface web (client local)
 ├── requirements.txt
 │
