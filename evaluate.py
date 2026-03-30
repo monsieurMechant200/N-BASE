@@ -1,169 +1,174 @@
 """
-evaluate.py
-Script d'évaluation : charge les modèles sauvegardés (.keras / .h5)
-et génère tous les graphiques exigés par le rapport.
+train.py
+Script principal d'entraînement pour les deux missions.
 
 Usage :
-  python evaluate.py --mission cnn
-  python evaluate.py --mission lstm
-  python evaluate.py --mission all
+  python train.py --mission cnn
+  python train.py --mission lstm
+  python train.py --mission all
 """
 
 import argparse
-import numpy as np
-import tensorflow as tf
 import os
+import tensorflow as tf
 
+# Imports internes
+from models.cnn_model  import build_cnn
+from models.rnn_model  import build_lstm
 from utils.data_processing import (
     load_cifar10,
     load_jena_climate,
     create_timeseries_datasets,
 )
 from utils.visualization import (
-    plot_confusion_matrix,
-    plot_lstm_predictions,
+    plot_training_history,
+    plot_lstm_history,
 )
 
+os.makedirs("models/saved", exist_ok=True)
 os.makedirs("results", exist_ok=True)
 
-CIFAR10_CLASSES = [
-    "avion", "auto", "oiseau", "chat", "cerf",
-    "chien", "grenouille", "cheval", "bateau", "camion"
-]
+
+# Callbacks communs
 
 
-
-# MISSION 1 — Évaluation CNN
-
-
-def evaluate_cnn(model_path: str = "models/saved/cnn_model.keras"):
-    print("  ÉVALUATION CNN (CIFAR-10)")
-
-    # Chargement modèle
-    if not os.path.exists(model_path):
-        raise FileNotFoundError(
-            f"Modèle introuvable : {model_path}\n"
-            "Lancez d'abord : python train.py --mission cnn"
-        )
-    model = tf.keras.models.load_model(model_path)
-    print(f"Modèle chargé depuis {model_path}")
-
-    # Données de test
-    _, _, (x_test, y_test) = load_cifar10(batch_size=128)
-
-    # Évaluation globale
-    loss, accuracy = model.evaluate(x_test, y_test, verbose=0)
-    print(f"\n  Test Loss     : {loss:.4f}")
-    print(f"  Test Accuracy : {accuracy * 100:.2f}%")
-    print(f"  Objectif 70%  : {' ATTEINT' if accuracy >= 0.70 else ' Non atteint'}")
-
-    # Prédictions → Matrice de confusion
-    print("\n Génération de la matrice de confusion...")
-    y_pred_probs = model.predict(x_test, verbose=0)
-    y_pred = np.argmax(y_pred_probs, axis=1)
-    y_true = y_test.flatten()
-
-    plot_confusion_matrix(
-        y_true, y_pred,
-        save_path="results/cnn_confusion_matrix.png"
-    )
-
-    # Rapport par classe
-    from sklearn.metrics import classification_report
-    report = classification_report(y_true, y_pred, target_names=CIFAR10_CLASSES)
-    print("\nRapport de classification :\n")
-    print(report)
-
-    # Sauvegarde du rapport texte
-    with open("results/cnn_classification_report.txt", "w") as f:
-        f.write(f"Test Accuracy : {accuracy * 100:.2f}%\n\n")
-        f.write(report)
-    print(" Rapport sauvegardé : results/cnn_classification_report.txt")
-
-    return accuracy
+def get_callbacks(monitor: str = "val_loss",
+                  model_path: str = "models/saved/best_model.h5"):
+    """
+    Retourne une liste de callbacks standards :
+      - EarlyStopping  : arrêt si pas d'amélioration pendant 10 époques
+      - ModelCheckpoint: sauvegarde le meilleur modèle
+      - ReduceLROnPlateau: réduit le LR si plateau
+    """
+    return [
+        tf.keras.callbacks.EarlyStopping(
+            monitor=monitor,
+            patience=10,
+            restore_best_weights=True,
+            verbose=1,
+        ),
+        tf.keras.callbacks.ModelCheckpoint(
+            filepath=model_path,
+            monitor=monitor,
+            save_best_only=True,
+            save_weights_only=True
+        ),
+        tf.keras.callbacks.ReduceLROnPlateau(
+            monitor=monitor,
+            factor=0.5,
+            patience=5,
+            min_lr=1e-6,
+            verbose=1,
+        ),
+    ]
 
 
-
-# MISSION 2 — Évaluation LSTM
-
-
-def evaluate_lstm(model_path: str = "models/saved/rnn_model.keras",
-                  sequence_length: int = 24):
-    print("  ÉVALUATION LSTM (Jena Climate)")
+# MISSION 1 — Entraînement CNN
 
 
-    # Chargement modèle
-    if not os.path.exists(model_path):
-        raise FileNotFoundError(
-            f"Modèle introuvable : {model_path}\n"
-            "Lancez d'abord : python train.py --mission lstm"
-        )
-    model = tf.keras.models.load_model(model_path)
-    print(f" Modèle chargé depuis {model_path}")
+def train_cnn(epochs: int = 20, batch_size: int = 64):
+    print("  MISSION 1 — Entraînement CNN (CIFAR-10)")
+
 
     # Données
+    train_ds, val_ds, _ = load_cifar10(batch_size=batch_size)
+
+    # Modèle
+    model = build_cnn(num_classes=10)
+    model.compile(
+        optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
+        loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+        metrics=["accuracy"],
+    )
+    model.summary()
+
+    # Entraînement
+    history = model.fit(
+        train_ds,
+        validation_data=val_ds,
+        epochs=epochs,
+        callbacks=get_callbacks(
+            monitor="val_loss",
+            model_path="models/saved/cnn_model.h5"
+        ),
+        verbose=1,
+    )
+
+    # Sauvegarde + Visualisation
+    model.save("models/saved/cnn_model.keras")
+    plot_training_history(history, save_path="results/cnn_history.png")
+    print("\n[✓] CNN entraîné et sauvegardé dans models/saved/cnn_model.keras")
+    return history
+
+
+
+# MISSION 2 — Entraînement LSTM
+
+
+
+def train_lstm(epochs: int = 20,
+               batch_size: int = 32,
+               sequence_length: int = 24):
+    print("  MISSION 2 — Entraînement LSTM (Jena Climate)")
+
+    # Chargement des Données
     series = load_jena_climate()
-    _, _, test_ds, scaler, y_test_raw, _ = create_timeseries_datasets(
-        series, sequence_length=sequence_length
+    train_ds, val_ds, test_ds, scaler, _, _ = create_timeseries_datasets(
+        series,
+        sequence_length=sequence_length,
+        batch_size=batch_size,
+    )
+    # determinons les n_features dynamiquement à partir d'un echantillon de dataset
+    for inputs, targets in train_ds.take(1):
+        input_shape = inputs.shape
+        n_features = input_shape[-1]
+        print(f"DEBUG: Input shape détectée: {input_shape}")
+
+    # Modèle
+    model = build_lstm(sequence_length=sequence_length, n_features=n_features)
+    model.compile(
+        optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
+        loss="mse",
+        metrics=["mae"],
+    )
+    model.summary()
+
+    # Entraînement
+    history = model.fit(
+        train_ds,
+        validation_data=val_ds,
+        epochs=epochs,
+        callbacks=get_callbacks(
+            monitor="val_loss",
+            model_path="models/saved/rnn_model.h5"
+        ),
+        verbose=1,
     )
 
-    # Prédictions
-    print("[→] Inférence sur les données de test...")
-    y_pred_norm = model.predict(test_ds, verbose=0).flatten()
-
-    # Dé-normalisation (inverse_transform)
-    y_pred = scaler.inverse_transform(y_pred_norm.reshape(-1, 1)).flatten()
-
-    # Alignement longueurs
-    min_len = min(len(y_test_raw), len(y_pred))
-    y_true = y_test_raw[:min_len]
-    y_pred = y_pred[:min_len]
-
-    # Métriques
-    mse  = np.mean((y_pred - y_true) ** 2)
-    mae  = np.mean(np.abs(y_pred - y_true))
-    rmse = np.sqrt(mse)
-
-    print(f"\n  Test MSE  : {mse:.4f}")
-    print(f"  Test MAE  : {mae:.4f}")
-    print(f"  Test RMSE : {rmse:.4f}")
-
-    #Graphique réel vs prédi
-    print("\n[→] Génération du graphique Réel vs Prédit...")
-    plot_lstm_predictions(
-        y_true[:500], y_pred[:500],          # Afficher les 500 premiers points
-        title=f"Jena Climate — Température (MSE={mse:.4f})",
-        save_path="results/lstm_predictions.png"
-    )
-
-    # Sauvegarde des métriques
-    with open("results/lstm_metrics.txt", "w") as f:
-        f.write(f"Test MSE  : {mse:.6f}\n")
-        f.write(f"Test MAE  : {mae:.6f}\n")
-        f.write(f"Test RMSE : {rmse:.6f}\n")
-    print(" Métriques sauvegardées : results/lstm_metrics.txt")
-
-    return mse
-
+    # Sauvegarde + Visualisation
+    model.save("models/saved/rnn_model.keras")
+    plot_lstm_history(history, save_path="results/lstm_history.png")
+    print("\n LSTM entraîné et sauvegardé dans models/saved/rnn_model.h5")
+    return history
 
 
 # Point d'entrée
 
-
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Évaluation des modèles Deep Learning")
+    parser = argparse.ArgumentParser(description="Entraînement Deep Learning")
     parser.add_argument(
         "--mission",
         choices=["cnn", "lstm", "all"],
         default="all",
-        help="Mission à évaluer (cnn | lstm | all)"
+        help="Mission à entraîner (cnn | lstm | all)"
     )
+    parser.add_argument("--epochs",     type=int, default=50)
+    parser.add_argument("--batch_size", type=int, default=64)
     args = parser.parse_known_args()[0]
 
     if args.mission in ("cnn", "all"):
-        evaluate_cnn()
+        train_cnn(epochs=args.epochs, batch_size=args.batch_size)
 
     if args.mission in ("lstm", "all"):
-        evaluate_lstm()
-
-    print("\n Évaluation terminée. Résultats disponibles dans le dossier results/")
+        train_lstm(epochs=args.epochs, batch_size=args.batch_size)
+ 
